@@ -2,6 +2,7 @@
 
 import { Gender } from "./Gender";
 import { CPF } from "./CPF";
+import { Birthdate } from "./Birthdate";
 
 export interface PatientModel {
   id: string;
@@ -19,7 +20,7 @@ export interface PatientModel {
   cpf: CPF;
 
   // in the past
-  birthdate: Date;
+  birthdate: Birthdate;
 
   currentAddress: {
     // valid CEP

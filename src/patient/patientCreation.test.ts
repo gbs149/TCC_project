@@ -1,6 +1,7 @@
 import { PatientModel } from "./PatientModel";
 import { Gender } from "./Gender";
 import { CPF } from "./CPF";
+import { Birthdate } from "./Birthdate";
 
 describe("first test", () => {
   it("should", () => {
@@ -9,8 +10,8 @@ describe("first test", () => {
       active: true,
       gender: Gender.male,
       name: { first: "", last: "" },
-      cpf: CPF.create("invalid"),
-      birthdate: new Date(),
+      cpf: CPF.create("169.052.555-05"),
+      birthdate: Birthdate.create(new Date("2012-03-12")),
       currentAddress: {
         use: "",
         postalCode: "",
