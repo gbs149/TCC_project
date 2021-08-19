@@ -6,8 +6,8 @@ import { Birthdate } from "./Birthdate";
 describe("first test", () => {
   it("should", () => {
     const patient: PatientModel = {
-      id: "generated",
-      active: true,
+      id: { id: "generated" },
+      active: { active: true },
       gender: Gender.male,
       name: { first: "", last: "" },
       cpf: CPF.create("169.052.555-05"),

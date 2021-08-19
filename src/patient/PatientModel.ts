@@ -3,10 +3,12 @@
 import { Gender } from "./Gender";
 import { CPF } from "./CPF";
 import { Birthdate } from "./Birthdate";
+import { Id } from "./Id";
+import { Active } from "./Active";
 
 export interface PatientModel {
-  id: string;
-  active: boolean;
+  id: Id;
+  active: Active;
   gender: Gender;
 
   name: {
