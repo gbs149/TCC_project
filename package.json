@@ -21,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "date-fns": "^2.23.0",
     "validar-cpf": "^2.1.2"
   },
   "devDependencies": {
