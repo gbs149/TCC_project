@@ -21,6 +21,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "validar-cpf": "^2.1.2"
   },
   "devDependencies": {
     "@types/fhir": "^0.0.34",
