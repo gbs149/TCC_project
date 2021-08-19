@@ -2,6 +2,7 @@ import { PatientModel } from "./PatientModel";
 import { Gender } from "./Gender";
 import { CPF } from "./CPF";
 import { Birthdate } from "./Birthdate";
+import { Name } from "./Name";
 
 describe("first test", () => {
   it("should", () => {
@@ -9,7 +10,12 @@ describe("first test", () => {
       id: { id: "generated" },
       active: { active: true },
       gender: Gender.male,
-      name: { first: "", last: "" },
+      // TS accepts this invalid object literal
+      // name: { first: "", last: "" },
+      name: Name.create({
+        first: " fsda ",
+        last: " asdf ",
+      }),
       cpf: CPF.create("169.052.555-05"),
       birthdate: Birthdate.create(new Date("2012-03-12")),
       currentAddress: {

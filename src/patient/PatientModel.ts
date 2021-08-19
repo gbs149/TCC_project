@@ -5,18 +5,14 @@ import { CPF } from "./CPF";
 import { Birthdate } from "./Birthdate";
 import { Id } from "./Id";
 import { Active } from "./Active";
+import { Name } from "./Name";
 
 export interface PatientModel {
   id: Id;
   active: Active;
   gender: Gender;
 
-  name: {
-    // min 1, max 100 char
-    first: string;
-    // min 1, max 100 char
-    last: string;
-  };
+  name: Name;
 
   // valid cpf
   cpf: CPF;
