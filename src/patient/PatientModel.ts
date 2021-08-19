@@ -6,6 +6,8 @@ import { Birthdate } from "./Birthdate";
 import { Id } from "./Id";
 import { Active } from "./Active";
 import { Name } from "./Name";
+import { Phone } from "./Phone";
+import { ContactUse } from "./ContactUse";
 
 export interface PatientModel {
   id: Id;
@@ -34,16 +36,11 @@ export interface PatientModel {
     use: string;
   };
 
-  phone: {
-    // type
-    use: string;
-    // valid phone number
-    value: string;
-  }[];
+  phone: Phone[];
 
   email: {
-    // type
-    use: string;
+    // home | work | temp | old | mobile
+    use: ContactUse;
     // valid email
     value: string;
   };
