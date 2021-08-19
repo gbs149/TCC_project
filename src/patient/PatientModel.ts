@@ -1,26 +1,25 @@
 // First draft of a patient model with some requirements
 
-interface PatientModel {
-  // UUID
-  id: string;
+import { Gender } from "./Gender";
+import { CPF } from "./CPF";
 
+export interface PatientModel {
+  id: string;
   active: boolean;
+  gender: Gender;
 
   name: {
-    // max 100 char
+    // min 1, max 100 char
     first: string;
-    // max 100 char
+    // min 1, max 100 char
     last: string;
   };
 
   // valid cpf
-  cpf: string;
+  cpf: CPF;
 
   // in the past
   birthdate: Date;
-
-  // male | female | other | unknown
-  gender: string;
 
   currentAddress: {
     // valid CEP
