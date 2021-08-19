@@ -3,6 +3,8 @@ import { Gender } from "./Gender";
 import { CPF } from "./CPF";
 import { Birthdate } from "./Birthdate";
 import { Name } from "./Name";
+import { Phone } from "./Phone";
+import { ContactUse } from "./ContactUse";
 
 describe("first test", () => {
   it("should", () => {
@@ -26,8 +28,8 @@ describe("first test", () => {
         city: "nem aqui nem la",
         state: "nope",
       },
-      email: { use: "nenhum", value: "nem a pau" },
-      phone: [{ use: "bla", value: " sdf  " }],
+      email: { use: ContactUse.home, value: "nem a pau" },
+      phone: [Phone.create(ContactUse.mobile, "51999977668")],
     };
 
     expect(patient).not.toBe(false);
