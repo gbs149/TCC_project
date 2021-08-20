@@ -2,8 +2,8 @@ import { ContactUse } from "./ContactUse";
 import { emailIsValid } from "../validation/emailValidation";
 
 export class Email {
-  use: ContactUse;
-  value: string;
+  readonly use: ContactUse;
+  readonly value: string;
 
   private constructor(use: ContactUse, value: string) {
     this.use = use;

@@ -1,7 +1,1 @@
-export enum ContactUse {
-  home = "home",
-  work = "work",
-  temp = "temp",
-  old = "old",
-  mobile = "mobile",
-}
+export type ContactUse = "home" | "work" | "temp" | "old" | "mobile";

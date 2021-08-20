@@ -7,8 +7,8 @@ import { Id } from "./Id";
 import { Active } from "./Active";
 import { Name } from "./Name";
 import { Phone } from "./Phone";
-import { ContactUse } from "./ContactUse";
 import { Email } from "./Email";
+import { Address } from "../Address/Address";
 
 export interface PatientModel {
   id: Id;
@@ -19,18 +19,5 @@ export interface PatientModel {
   gender: Gender;
   name: Name;
   phone: Phone[];
-
-  currentAddress: {
-    // valid CEP
-    postalCode: string;
-    street: string;
-    number: number;
-    complement?: string;
-    // existing city
-    city: string;
-    // existing state
-    state: string;
-    // type of address
-    use: string;
-  };
+  currentAddress: Address;
 }

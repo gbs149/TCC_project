@@ -2,8 +2,8 @@ import { isValidPhoneNumber } from "../validation/phoneValidation";
 import { ContactUse } from "./ContactUse";
 
 export class Phone {
-  use: ContactUse;
-  value: string;
+  readonly use: ContactUse;
+  readonly value: string;
 
   private constructor(use: ContactUse, value: string) {
     this.use = use;

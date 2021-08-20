@@ -1,7 +1,7 @@
 import { isPast } from "date-fns";
 
 export class Birthdate {
-  date: Date;
+  readonly date: Date;
 
   private constructor(date: Date) {
     this.date = date;
