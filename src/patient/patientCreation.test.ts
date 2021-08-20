@@ -5,6 +5,7 @@ import { Birthdate } from "./Birthdate";
 import { Name } from "./Name";
 import { Phone } from "./Phone";
 import { ContactUse } from "./ContactUse";
+import { Email } from "./Email";
 
 describe("first test", () => {
   it("should", () => {
@@ -28,7 +29,7 @@ describe("first test", () => {
         city: "nem aqui nem la",
         state: "nope",
       },
-      email: { use: ContactUse.home, value: "nem a pau" },
+      email: Email.create(ContactUse.home, "a@b.co"),
       phone: [Phone.create(ContactUse.mobile, "51999977668")],
     };
 

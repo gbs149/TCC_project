@@ -8,19 +8,17 @@ import { Active } from "./Active";
 import { Name } from "./Name";
 import { Phone } from "./Phone";
 import { ContactUse } from "./ContactUse";
+import { Email } from "./Email";
 
 export interface PatientModel {
   id: Id;
   active: Active;
-  gender: Gender;
-
-  name: Name;
-
-  // valid cpf
-  cpf: CPF;
-
-  // in the past
   birthdate: Birthdate;
+  cpf: CPF;
+  email: Email;
+  gender: Gender;
+  name: Name;
+  phone: Phone[];
 
   currentAddress: {
     // valid CEP
@@ -34,14 +32,5 @@ export interface PatientModel {
     state: string;
     // type of address
     use: string;
-  };
-
-  phone: Phone[];
-
-  email: {
-    // home | work | temp | old | mobile
-    use: ContactUse;
-    // valid email
-    value: string;
   };
 }
