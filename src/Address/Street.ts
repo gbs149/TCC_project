@@ -1,13 +1,9 @@
-import { between0and100, BoundedString } from "../patient/BoundedString";
+import { BoundedString, string100 } from "../validation/BoundedString";
 
-export class Street {
-  name: BoundedString;
-
-  private constructor(name: string) {
-    this.name = name;
-  }
-
-  static create(name: string): Street {
-    return new Street(between0and100(name));
-  }
+export interface Street {
+  readonly value: BoundedString;
 }
+
+export const createStreet = (name: string): Street => {
+  return { value: string100(name) };
+};

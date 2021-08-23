@@ -1,3 +1,3 @@
 export interface Active {
-  readonly active: boolean;
+  readonly value: boolean;
 }

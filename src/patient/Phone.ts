@@ -1,20 +1,15 @@
 import { isValidPhoneNumber } from "../validation/phoneValidation";
 import { ContactUse } from "./ContactUse";
 
-export class Phone {
+export interface Phone {
   readonly use: ContactUse;
   readonly value: string;
-
-  private constructor(use: ContactUse, value: string) {
-    this.use = use;
-    this.value = value;
-  }
-
-  static create(use: ContactUse, value: string): Phone {
-    if (isValidPhoneNumber(value)) {
-      return new Phone(use, value);
-    } else {
-      throw Error("Invalid phone number");
-    }
-  }
 }
+
+export const createPhone = (value: string, use: ContactUse): Phone => {
+  if (isValidPhoneNumber(value)) {
+    return { value, use };
+  } else {
+    throw Error("Invalid phone number");
+  }
+};

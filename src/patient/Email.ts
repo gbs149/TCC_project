@@ -1,20 +1,15 @@
 import { ContactUse } from "./ContactUse";
 import { emailIsValid } from "../validation/emailValidation";
 
-export class Email {
+export interface Email {
   readonly use: ContactUse;
   readonly value: string;
-
-  private constructor(use: ContactUse, value: string) {
-    this.use = use;
-    this.value = value;
-  }
-
-  static create(use: ContactUse, value: string): Email {
-    if (emailIsValid(value)) {
-      return new Email(use, value);
-    } else {
-      throw Error("Invalid email");
-    }
-  }
 }
+
+export const createEmail = (value: string, use: ContactUse): Email => {
+  if (emailIsValid(value)) {
+    return { value, use };
+  } else {
+    throw Error("Invalid email");
+  }
+};
