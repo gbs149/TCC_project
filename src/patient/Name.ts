@@ -1,24 +1,17 @@
-import { between0and100, BoundedString } from "./BoundedString";
+import { string100, BoundedString } from "../validation/BoundedString";
 
-export class Name {
-  first: BoundedString;
-  last: BoundedString;
-
-  private constructor({
-    first,
-    last,
-  }: {
-    first: BoundedString;
-    last: BoundedString;
-  }) {
-    this.first = first;
-    this.last = last;
-  }
-
-  static create({ first, last }: { first: string; last: string }): Name {
-    return new Name({
-      first: between0and100(first),
-      last: between0and100(last),
-    });
-  }
+export interface Name {
+  readonly first: BoundedString;
+  readonly last: BoundedString;
 }
+
+export const createName = ({
+  first,
+  last,
+}: {
+  first: string;
+  last: string;
+}): Name => ({
+  first: string100(first),
+  last: string100(last),
+});
