@@ -1,11 +1,10 @@
-export interface AddressNumber {
-  readonly value: number | "s/n";
-}
+import { Either, left, right } from "fp-ts/lib/Either";
 
-export const createAddressNumber = (num: number | "s/n"): AddressNumber => {
-  if (typeof num === "number" && num < 0) {
-    throw Error("Number must be positive");
-  } else {
-    return { value: num };
-  }
-};
+export type AddressNumber = number | "s/n";
+
+export const createAddressNumber = (
+  value: AddressNumber
+): Either<string, AddressNumber> =>
+  typeof value === "number" && value >= 0
+    ? right(value)
+    : left("Number must be positive");

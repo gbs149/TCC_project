@@ -1,14 +1,11 @@
-export interface PostalCode {
-  readonly value: string;
-}
+import { Either, left, right } from "fp-ts/lib/Either";
 
-export const createPostalCode = (postalCode: string): PostalCode => {
-  if (isValid(postalCode)) {
-    return { value: postalCode };
-  } else {
-    throw Error("Invalid postal code");
-  }
-};
+export type PostalCode = string;
+
+export const createPostalCode = (
+  postalCode: string
+): Either<string, PostalCode> =>
+  isValid(postalCode) ? right(postalCode) : left("Invalid postal code");
 
 // 8 consecutive digits
 const postalCodeRegex = /^\d{8}$/;

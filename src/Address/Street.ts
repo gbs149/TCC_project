@@ -1,9 +1,7 @@
-import { BoundedString, string100 } from "../validation/BoundedString";
+import { BoundedString, string100 } from "../validation/boundedString";
+import { Either } from "fp-ts/lib/Either";
 
-export interface Street {
-  readonly value: BoundedString;
-}
+export type Street = BoundedString;
 
-export const createStreet = (name: string): Street => {
-  return { value: string100(name) };
-};
+export const createStreet = (name: string): Either<string, Street> =>
+  string100(name);
