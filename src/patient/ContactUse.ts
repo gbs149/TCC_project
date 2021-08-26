@@ -1,1 +1,3 @@
-export type ContactUse = "home" | "work" | "temp" | "old" | "mobile";
+const contactUses = ["home", "work", "temp", "old", "mobile"];
+
+export const isContactUse = (val: string): boolean => contactUses.includes(val);

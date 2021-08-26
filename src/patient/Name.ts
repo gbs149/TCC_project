@@ -1,8 +1,9 @@
-import { string100, BoundedString } from "../validation/BoundedString";
+import { string100, BoundedString } from "../validation/boundedString";
+import { Either } from "fp-ts/lib/Either";
 
 export interface Name {
-  readonly first: BoundedString;
-  readonly last: BoundedString;
+  readonly first: Either<string, BoundedString>;
+  readonly last: Either<string, BoundedString>;
 }
 
 export const createName = ({
