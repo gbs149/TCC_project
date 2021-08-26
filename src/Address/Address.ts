@@ -1,7 +1,7 @@
 import { Either } from "fp-ts/lib/Either";
 
 import { createPostalCode, PostalCode } from "./PostalCode";
-import { validAdressUse } from "./AddressUse";
+import { AddressUse, validAdressUse } from "./AddressUse";
 import { AddressNumber, createAddressNumber } from "./AddressNumber";
 import { State, validState } from "./State";
 import { createStreet, Street } from "./Street";
@@ -17,7 +17,7 @@ export interface Address {
   postalCode: Either<string, PostalCode>;
   state: Either<string, State>;
   street: Either<string, Street>;
-  use: Either<string, string>;
+  use: Either<string, AddressUse>;
 }
 
 export const createAddress = ({

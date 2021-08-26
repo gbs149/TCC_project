@@ -1,13 +1,7 @@
 import { isPast } from "date-fns";
+import { Either, left, right } from "fp-ts/lib/Either";
 
-export interface Birthdate {
-  readonly value: Date;
-}
+export type Birthdate = Date;
 
-export const createDate = (date: Date): Birthdate => {
-  if (isPast(date)) {
-    return { value: date };
-  } else {
-    throw Error("Birthdate must be in the past");
-  }
-};
+export const createBirthdate = (date: Date): Either<string, Date> =>
+  isPast(date) ? right(date) : left("Birthdate must be in the past");

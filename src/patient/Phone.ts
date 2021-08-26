@@ -1,15 +1,21 @@
+import { Either, left, right } from "fp-ts/lib/Either";
 import { isValidPhoneNumber } from "../validation/phoneValidation";
-import { ContactUse } from "./ContactUse";
+import { isContactUse } from "./ContactUse";
 
 export interface Phone {
-  readonly use: ContactUse;
+  readonly use: string;
   readonly value: string;
 }
 
-export const createPhone = (value: string, use: ContactUse): Phone => {
-  if (isValidPhoneNumber(value)) {
-    return { value, use };
-  } else {
-    throw Error("Invalid phone number");
-  }
-};
+export const createPhone = ({
+  value,
+  use,
+}: {
+  value: string;
+  use: string;
+}): Either<string, Phone> =>
+  !isValidPhoneNumber(value)
+    ? left("Invalid phone number")
+    : !isContactUse(use)
+    ? left("Not a valid contact use")
+    : right({ value, use });

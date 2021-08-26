@@ -1,13 +1,7 @@
+import { Either, left, right } from "fp-ts/lib/Either";
 import { isValidCpf } from "../validation/cpfValidation";
 
-export interface CPF {
-  readonly value: string;
-}
+export type CPF = string;
 
-export const createCPF = (value: string): CPF => {
-  if (isValidCpf(value)) {
-    return { value };
-  } else {
-    throw Error("Invalid CPF");
-  }
-};
+export const createCPF = (value: string): Either<string, CPF> =>
+  isValidCpf(value) ? right(value) : left("Invalid CPF");

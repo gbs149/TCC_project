@@ -2,7 +2,6 @@ import { Either, left, right } from "fp-ts/lib/Either";
 
 export type BoundedString = string;
 
-// TODO curry this
 export const boundString =
   (lower: number, upper: number) =>
   (str: string): Either<string, BoundedString> =>
