@@ -1,4 +1,4 @@
-import { AddressDTO } from "../Address/AddressDTO";
+import { AddressDTO } from "./Address/AddressDTO";
 
 export interface PatientDTO {
   id: string;

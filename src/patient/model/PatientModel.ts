@@ -10,7 +10,7 @@ import { Active } from "./Active";
 import { createName, Name } from "./Name";
 import { createPhone, Phone } from "./Phone";
 import { createEmail, Email } from "./Email";
-import { Address, createAddress } from "../Address/Address";
+import { Address, createAddress } from "./Address/Address";
 import { PatientDTO } from "./PatientDTO";
 import { parseISO } from "date-fns";
 
