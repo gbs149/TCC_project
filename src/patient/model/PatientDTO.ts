@@ -5,9 +5,9 @@ export interface PatientDTO {
   active: boolean;
   birthdate: string;
   cpf: string;
-  email: { value: string; use: string };
+  email: { email: string; use: string };
   gender: string;
   name: { first: string; last: string };
-  phone: { value: string; use: string }[];
+  phone: { value: string; use: string };
   currentAddress: AddressDTO;
 }

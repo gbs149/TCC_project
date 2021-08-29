@@ -1,7 +1,14 @@
-import { BoundedString, string100 } from "../../../validation/boundedString";
-import { Either } from "fp-ts/lib/Either";
+import { isValidString } from "../../../validation/boundedString";
+import { Either, left, right } from "fp-ts/lib/Either";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
-export type City = BoundedString;
+interface CityBrand {
+  readonly City: unique symbol;
+}
 
-export const createCity = (name: string): Either<string, City> =>
-  string100(name);
+export type City = string & CityBrand;
+
+const isValidCity = (s: string): s is City => isValidString(s);
+
+export const makeCity = (s: string): Either<NonEmptyArray<string>, City> =>
+  isValidCity(s) ? right(s) : left(["Invalid city name"]);

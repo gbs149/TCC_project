@@ -1,16 +1,8 @@
-import { Either, left, right } from "fp-ts/lib/Either";
+const isLongerThan = (n: number) => (s: string) => s.trim().length > n;
+const isShorterThan = (n: number) => (s: string) => s.trim().length < n;
 
-export type BoundedString = string;
+const isShorterThan100 = isShorterThan(100);
+const isNotEmpty = isLongerThan(0);
 
-export const boundString =
-  (lower: number, upper: number) =>
-  (str: string): Either<string, BoundedString> =>
-    str.trim().length < lower
-      ? left(
-          `String cannot shorter than ${lower} character${lower > 1 ? "s" : ""}`
-        )
-      : str.trim().length > upper
-      ? left(`String cannot be longer than ${upper} characters`)
-      : right(str);
-
-export const string100 = boundString(1, 100);
+export const isValidString = (s: string): boolean =>
+  isShorterThan100(s) && isNotEmpty(s);

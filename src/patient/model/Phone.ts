@@ -1,21 +1,33 @@
-import { Either, left, right } from "fp-ts/lib/Either";
-import { isValidPhoneNumber } from "../validation/phoneValidation";
-import { isContactUse } from "./ContactUse";
+import { Either, left, map, right } from "fp-ts/lib/Either";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { pipe } from "fp-ts/lib/function";
+import { sequenceT } from "fp-ts/lib/Apply";
 
-export interface Phone {
+import { makeContactUse } from "./ContactUse";
+import { isValidPhoneNumber } from "../../validation/phoneValidation";
+import { applicativeValidation } from "../../validation/applicativeValidation";
+
+export const makePhone = (s: string): Either<NonEmptyArray<string>, string> =>
+  isValidPhoneNumber(s) ? right(s) : left(["Invalid phone number"]);
+
+export interface PhoneContact {
   readonly use: string;
   readonly value: string;
 }
 
-export const createPhone = ({
+const toPhoneContact = ([phone, use]: [string, string]): PhoneContact => ({
+  value: phone,
+  use,
+});
+
+export const makePhoneContact = ({
   value,
   use,
 }: {
   value: string;
   use: string;
-}): Either<string, Phone> =>
-  !isValidPhoneNumber(value)
-    ? left("Invalid phone number")
-    : !isContactUse(use)
-    ? left("Not a valid contact use")
-    : right({ value, use });
+}): Either<NonEmptyArray<string>, PhoneContact> =>
+  pipe(
+    sequenceT(applicativeValidation)(makePhone(value), makeContactUse(use)),
+    map(toPhoneContact)
+  );

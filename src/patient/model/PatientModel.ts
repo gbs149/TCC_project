@@ -1,30 +1,64 @@
 // First draft of a patient model with some requirements
 
-import { Either } from "fp-ts/lib/Either";
+import { Either, map, right } from "fp-ts/lib/Either";
 
-import { GenderType, genderType } from "./GenderType";
-import { CPF, createCPF } from "./CPF";
-import { Birthdate, createBirthdate } from "./Birthdate";
+import { GenderType, makeGenderType } from "./GenderType";
+import { CPF, makeCPF } from "./CPF";
+import { Birthdate, makeBirthdate } from "./Birthdate";
 import { Id } from "./Id";
-import { Active } from "./Active";
-import { createName, Name } from "./Name";
-import { createPhone, Phone } from "./Phone";
-import { createEmail, Email } from "./Email";
-import { Address, createAddress } from "./Address/Address";
+import { makeName, Name } from "./Name";
+import { makePhone, makePhoneContact, PhoneContact } from "./Phone";
+import { EmailContact, makeEmailContact } from "./Email";
+import { Address, makeAddress } from "./Address/Address";
 import { PatientDTO } from "./PatientDTO";
-import { parseISO } from "date-fns";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { pipe } from "fp-ts/lib/function";
+import { sequenceT } from "fp-ts/lib/Apply";
+import { applicativeValidation } from "../../validation/applicativeValidation";
 
 export interface PatientModel {
   id: Id;
-  active: Active;
-  birthdate: Either<string, Birthdate>;
-  cpf: Either<string, CPF>;
-  email: Either<string, Email>;
-  gender: Either<string, GenderType>;
+  active: boolean;
+  birthdate: Birthdate;
+  cpf: CPF;
+  email: EmailContact;
+  gender: GenderType;
   name: Name;
-  phone: Either<string, Phone>[];
+  phone: PhoneContact;
   currentAddress: Address;
 }
+
+const toPatient = ([
+  id,
+  active,
+  currentAddress,
+  birthdate,
+  cpf,
+  email,
+  gender,
+  name,
+  phone,
+]: [
+  Id,
+  boolean,
+  Address,
+  Birthdate,
+  CPF,
+  EmailContact,
+  GenderType,
+  Name,
+  PhoneContact
+]): PatientModel => ({
+  id,
+  active,
+  currentAddress,
+  birthdate,
+  cpf,
+  email,
+  gender,
+  name,
+  phone,
+});
 
 export const createPatient = ({
   active,
@@ -34,23 +68,20 @@ export const createPatient = ({
   email,
   gender,
   id,
-  name: { first, last },
+  name,
   phone,
-}: PatientDTO): PatientModel => {
-  return {
-    id: {
-      value: id,
-    },
-    active: { value: active },
-    birthdate: createBirthdate(parseISO(birthdate)),
-    cpf: createCPF(cpf),
-    email: createEmail(email),
-    gender: genderType(gender),
-    name: createName({
-      first: first,
-      last: last,
-    }),
-    phone: phone.map(createPhone),
-    currentAddress: createAddress(currentAddress),
-  };
-};
+}: PatientDTO): Either<NonEmptyArray<string>, PatientModel> =>
+  pipe(
+    sequenceT(applicativeValidation)(
+      right(id),
+      right(active),
+      makeAddress(currentAddress),
+      makeBirthdate(birthdate),
+      makeCPF(cpf),
+      makeEmailContact(email),
+      makeGenderType(gender),
+      makeName(name),
+      makePhoneContact(phone)
+    ),
+    map(toPatient)
+  );

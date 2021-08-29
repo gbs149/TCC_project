@@ -1,5 +1,5 @@
 import { AddressDTO } from "./AddressDTO";
-import { createAddress } from "./Address";
+import { makeAddress } from "./Address";
 
 describe("Address creation", () => {
   it("should create an Address from a valid DTO", () => {
@@ -13,7 +13,7 @@ describe("Address creation", () => {
       use: "home",
     };
 
-    const address = createAddress(addressDTO);
+    const address = makeAddress(addressDTO);
 
     expect(address).toStrictEqual({
       city: { _tag: "Right", right: "Poa" },
@@ -36,7 +36,7 @@ describe("Address creation", () => {
       use: "home sweet home",
     };
 
-    const address = createAddress(addressDTO);
+    const address = makeAddress(addressDTO);
 
     expect(address).toStrictEqual({
       city: { _tag: "Left", left: "String cannot shorter than 1 character" },
@@ -45,7 +45,7 @@ describe("Address creation", () => {
       postalCode: { _tag: "Left", left: "Invalid postal code" },
       state: { _tag: "Left", left: "Not a state" },
       street: { _tag: "Left", left: "String cannot shorter than 1 character" },
-      use: { _tag: "Left", left: "Not a valid address use" },
+      use: { _tag: "Left", left: "Invalid address use" },
     });
   });
 });

@@ -1,26 +1,40 @@
-import { Either } from "fp-ts/lib/Either";
+import { Either, map, right } from "fp-ts/lib/Either";
 
-import { createPostalCode, PostalCode } from "./PostalCode";
-import { AddressUse, validAdressUse } from "./AddressUse";
-import { AddressNumber, createAddressNumber } from "./AddressNumber";
-import { State, validState } from "./State";
-import { createStreet, Street } from "./Street";
-import { Complement, createComplement } from "./Complement";
+import { makePostalCode, PostalCode } from "./PostalCode";
+import { AddressUse, makeAddressUse } from "./AddressUse";
+import { AddressNumber, makeAddressNumber } from "./AddressNumber";
+import { makeState, State } from "./State";
+import { makeStreet, Street } from "./Street";
+import { Complement, makeComplement } from "./Complement";
 import { AddressDTO } from "./AddressDTO";
 import { Option } from "fp-ts/lib/Option";
-import { City, createCity } from "./City";
+import { City, makeCity } from "./City";
+import { pipe } from "fp-ts/lib/function";
+import { sequenceT } from "fp-ts/lib/Apply";
+import { applicativeValidation } from "../../../validation/applicativeValidation";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
 export interface Address {
-  city: Either<string, City>;
+  city: City;
   complement: Option<Complement>;
-  number: Either<string, AddressNumber>;
-  postalCode: Either<string, PostalCode>;
-  state: Either<string, State>;
-  street: Either<string, Street>;
-  use: Either<string, AddressUse>;
+  number: AddressNumber;
+  postalCode: PostalCode;
+  state: State;
+  street: Street;
+  use: AddressUse;
 }
 
-export const createAddress = ({
+const toAddress = ([city, complement, number, postalCode, state, street, use]: [
+  City,
+  Option<Complement>,
+  AddressNumber,
+  PostalCode,
+  State,
+  Street,
+  AddressUse
+]) => ({ city, complement, number, postalCode, state, street, use });
+
+export const makeAddress = ({
   city,
   complement,
   number,
@@ -28,14 +42,16 @@ export const createAddress = ({
   state,
   street,
   use,
-}: AddressDTO): Address => {
-  return {
-    city: createCity(city),
-    complement: createComplement(complement),
-    number: createAddressNumber(number),
-    postalCode: createPostalCode(postalCode),
-    state: validState(state),
-    street: createStreet(street),
-    use: validAdressUse(use),
-  };
-};
+}: AddressDTO): Either<NonEmptyArray<string>, Address> =>
+  pipe(
+    sequenceT(applicativeValidation)(
+      makeCity(city),
+      right(makeComplement(complement)),
+      makeAddressNumber(number),
+      makePostalCode(postalCode),
+      makeState(state),
+      makeStreet(street),
+      makeAddressUse(use)
+    ),
+    map(toAddress)
+  );
