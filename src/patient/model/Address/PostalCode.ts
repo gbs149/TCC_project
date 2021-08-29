@@ -1,14 +1,16 @@
 import { Either, left, right } from "fp-ts/lib/Either";
+import { isValidPostalCode } from "../../../validation/postalCode";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
-export type PostalCode = string;
+interface PostalCodeBrand {
+  readonly PostalCode: unique symbol;
+}
 
-export const createPostalCode = (
+export type PostalCode = string & PostalCodeBrand;
+
+const isPostalCode = (s: string): s is PostalCode => isValidPostalCode(s);
+
+export const makePostalCode = (
   postalCode: string
-): Either<string, PostalCode> =>
-  isValid(postalCode) ? right(postalCode) : left("Invalid postal code");
-
-// 8 consecutive digits
-const postalCodeRegex = /^\d{8}$/;
-
-const isValid = (postalCode: string): boolean =>
-  postalCodeRegex.test(postalCode);
+): Either<NonEmptyArray<string>, PostalCode> =>
+  isPostalCode(postalCode) ? right(postalCode) : left(["Invalid postal code"]);

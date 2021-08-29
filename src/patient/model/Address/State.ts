@@ -1,4 +1,5 @@
 import { Either, left, right } from "fp-ts/lib/Either";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
 const states = [
   "AC",
@@ -30,7 +31,13 @@ const states = [
   "TO",
 ];
 
-export type State = string;
+interface StateBrand {
+  readonly State: unique symbol;
+}
 
-export const validState = (val: string): Either<string, State> =>
-  states.includes(val) ? right(val) : left("Not a state");
+export type State = string & StateBrand;
+
+const isState = (s: string): s is State => states.includes(s);
+
+export const makeState = (s: string): Either<NonEmptyArray<string>, State> =>
+  isState(s) ? right(s) : left(["Invalid state"]);

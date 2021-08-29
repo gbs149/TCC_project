@@ -1,8 +1,17 @@
 import { Either, left, right } from "fp-ts/lib/Either";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
 const addressUses = ["home", "work", "temp", "old", "billing"];
 
-export type AddressUse = string;
+interface AddressUseBrand {
+  readonly AdressUse: unique symbol;
+}
 
-export const validAdressUse = (val: string): Either<string, AddressUse> =>
-  addressUses.includes(val) ? right(val) : left("Not a valid address use");
+export type AddressUse = string & AddressUseBrand;
+
+const isAddressUse = (s: string): s is AddressUse => addressUses.includes(s);
+
+export const makeAddressUse = (
+  s: string
+): Either<NonEmptyArray<string>, AddressUse> =>
+  isAddressUse(s) ? right(s) : left(["Invalid address use"]);

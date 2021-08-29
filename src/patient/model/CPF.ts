@@ -1,7 +1,14 @@
 import { Either, left, right } from "fp-ts/lib/Either";
-import { isValidCpf } from "../validation/cpfValidation";
+import { isValidCpf } from "../../validation/cpfValidation";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
-export type CPF = string;
+interface CPFBrand {
+  readonly CPF: unique symbol;
+}
 
-export const createCPF = (value: string): Either<string, CPF> =>
-  isValidCpf(value) ? right(value) : left("Invalid CPF");
+export type CPF = string & CPFBrand;
+
+const isCPF = (s: string): s is CPF => isValidCpf(s);
+
+export const makeCPF = (s: string): Either<NonEmptyArray<string>, CPF> =>
+  isCPF(s) ? right(s) : left(["Invalid CPF"]);
