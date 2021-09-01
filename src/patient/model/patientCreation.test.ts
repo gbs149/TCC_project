@@ -45,7 +45,7 @@ describe("Patient", () => {
         email: { use: "home", value: "a@b.co" },
         gender: "female",
         id: "generated",
-        name: { first: " fsda ", last: " asdf " },
+        name: { first: "fsda", last: "asdf" },
         phone: { use: "mobile", value: "51999977668" },
       })
     );

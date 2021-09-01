@@ -1,7 +1,7 @@
 import { Either, map, right } from "fp-ts/lib/Either";
 
 import { makePostalCode, PostalCode } from "./PostalCode";
-import { AddressUse, makeAddressUse } from "./AddressUse";
+import { makeAddressUse } from "./AddressUse";
 import { AddressNumber, makeAddressNumber } from "./AddressNumber";
 import { makeState, State } from "./State";
 import { makeStreet, Street } from "./Street";
@@ -13,6 +13,7 @@ import { pipe } from "fp-ts/lib/function";
 import { sequenceT } from "fp-ts/lib/Apply";
 import { applicativeValidation } from "../../../validation/applicativeValidation";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { AddressUseType } from "../../fhir/useTypes";
 
 export interface Address {
   city: City;
@@ -21,7 +22,7 @@ export interface Address {
   postalCode: PostalCode;
   state: State;
   street: Street;
-  use: AddressUse;
+  use: AddressUseType;
 }
 
 const toAddress = ([city, complement, number, postalCode, state, street, use]: [
@@ -31,7 +32,7 @@ const toAddress = ([city, complement, number, postalCode, state, street, use]: [
   PostalCode,
   State,
   Street,
-  AddressUse
+  AddressUseType
 ]) => ({ city, complement, number, postalCode, state, street, use });
 
 export const makeAddress = ({

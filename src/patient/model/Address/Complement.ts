@@ -7,7 +7,7 @@ interface ComplementBrand {
 
 export type Complement = string & ComplementBrand;
 
-const isValidComplement = (s: string): s is Complement => isValidString(s);
+const isValidComplement = (s: string): s is Complement => s && isValidString(s);
 
 export const makeComplement = (s: string): Option<Complement> => {
   return isValidComplement(s) ? some(s) : none;

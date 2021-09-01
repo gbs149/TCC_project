@@ -6,16 +6,20 @@ import { sequenceT } from "fp-ts/lib/Apply";
 import { makeContactUse } from "./ContactUse";
 import { isValidEmail } from "../../validation/emailValidation";
 import { applicativeValidation } from "../../validation/applicativeValidation";
+import { ContactUseType } from "../fhir/useTypes";
 
 export const makeEmail = (s: string): Either<NonEmptyArray<string>, string> =>
   isValidEmail(s) ? right(s) : left(["Invalid email"]);
 
 export type EmailContact = {
-  readonly use: string;
+  readonly use: ContactUseType;
   readonly value: string;
 };
 
-const toEmailContact = ([email, use]: [string, string]): EmailContact => ({
+const toEmailContact = ([email, use]: [
+  string,
+  ContactUseType
+]): EmailContact => ({
   value: email,
   use,
 });

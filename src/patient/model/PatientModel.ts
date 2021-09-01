@@ -1,20 +1,21 @@
 // First draft of a patient model with some requirements
 
 import { Either, map, right } from "fp-ts/lib/Either";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { pipe } from "fp-ts/lib/function";
+import { sequenceT } from "fp-ts/lib/Apply";
 
-import { GenderType, makeGenderType } from "./GenderType";
+import { makeGenderType } from "./GenderType";
 import { CPF, makeCPF } from "./CPF";
 import { Birthdate, makeBirthdate } from "./Birthdate";
 import { Id } from "./Id";
 import { makeName, Name } from "./Name";
-import { makePhone, makePhoneContact, PhoneContact } from "./Phone";
+import { makePhoneContact, PhoneContact } from "./Phone";
 import { EmailContact, makeEmailContact } from "./Email";
 import { Address, makeAddress } from "./Address/Address";
 import { PatientDTO } from "./PatientDTO";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { pipe } from "fp-ts/lib/function";
-import { sequenceT } from "fp-ts/lib/Apply";
 import { applicativeValidation } from "../../validation/applicativeValidation";
+import { GenderType } from "../fhir/useTypes";
 
 export interface PatientModel {
   id: Id;
