@@ -29,8 +29,8 @@ export const makeName = ({
 }): Either<NonEmptyArray<string>, Name> =>
   pipe(
     sequenceT(applicativeValidation)(
-      makeValidString("first")(first),
-      makeValidString("last")(last)
+      makeValidString("first")(first.trim()),
+      makeValidString("last")(last.trim())
     ),
     map(toName)
   );

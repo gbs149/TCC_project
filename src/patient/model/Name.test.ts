@@ -3,12 +3,12 @@ import { makeName } from "./Name";
 describe("Name", () => {
   it("should create a valid NameContact", function () {
     const e = makeName({
-      first: "asdf",
-      last: "fdsa",
+      first: "  asdf qwerty ",
+      last: " fdsa  ",
     });
     expect(e).toStrictEqual({
       _tag: "Right",
-      right: { first: "asdf", last: "fdsa" },
+      right: { first: "asdf qwerty", last: "fdsa" },
     });
   });
 

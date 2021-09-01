@@ -1,11 +1,10 @@
 import { Either, left, right } from "fp-ts/Either";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-
-const genderTypes = ["male", "female", "other", "unknown"];
-
-export type GenderType = string;
+import { GenderType, genderTypes } from "../fhir/useTypes";
 
 export const makeGenderType = (
-  val: string
+  s: string
 ): Either<NonEmptyArray<string>, GenderType> =>
-  genderTypes.includes(val) ? right(val) : left(["Invalid gender type"]);
+  genderTypes.includes(s as GenderType)
+    ? right(s as GenderType)
+    : left(["Invalid gender type"]);

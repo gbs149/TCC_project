@@ -6,16 +6,20 @@ import { sequenceT } from "fp-ts/lib/Apply";
 import { makeContactUse } from "./ContactUse";
 import { isValidPhoneNumber } from "../../validation/phoneValidation";
 import { applicativeValidation } from "../../validation/applicativeValidation";
+import { ContactUseType } from "../fhir/useTypes";
 
 export const makePhone = (s: string): Either<NonEmptyArray<string>, string> =>
   isValidPhoneNumber(s) ? right(s) : left(["Invalid phone number"]);
 
 export interface PhoneContact {
-  readonly use: string;
+  readonly use: ContactUseType;
   readonly value: string;
 }
 
-const toPhoneContact = ([phone, use]: [string, string]): PhoneContact => ({
+const toPhoneContact = ([phone, use]: [
+  string,
+  ContactUseType
+]): PhoneContact => ({
   value: phone,
   use,
 });
