@@ -5,11 +5,10 @@ describe("Address creation", () => {
   it("should create an Address from a valid DTO", () => {
     const addressDTO: AddressDTO = {
       city: "Poa",
-      complement: "ap 25",
-      number: 61,
+      lines: ["Rua Prov. Duplov, 61 apto. 205", "esquina com Protosia"],
       postalCode: "23490200",
       state: "RS",
-      street: "Duplov",
+
       use: "home",
     };
 
@@ -19,11 +18,9 @@ describe("Address creation", () => {
       _tag: "Right",
       right: {
         city: "Poa",
-        complement: { _tag: "Some", value: "ap 25" },
-        number: 61,
+        lines: ["Rua Prov. Duplov, 61 apto. 205", "esquina com Protosia"],
         postalCode: "23490200",
         state: "RS",
-        street: "Duplov",
         use: "home",
       },
     });
@@ -32,10 +29,9 @@ describe("Address creation", () => {
   it("should return left for invalid values", () => {
     const addressDTO: AddressDTO = {
       city: "",
-      number: -61,
+      lines: ["Rua Prov. Duplov, 61 apto. 205", ""],
       postalCode: "asdf",
       state: "TS",
-      street: "",
       use: "home sweet home",
     };
 
@@ -45,10 +41,9 @@ describe("Address creation", () => {
       _tag: "Left",
       left: [
         "Invalid city name",
-        "Number must be positive",
+        "Invalid lines",
         "Invalid postal code",
         "Invalid state",
-        "Invalid street name",
         "Invalid address use",
       ],
     });

@@ -1,9 +1,15 @@
 export interface AddressDTO {
   city: string;
-  complement?: string;
-  number: number;
+  lines: string[];
   postalCode: string;
   state: string;
-  street: string;
   use: string;
 }
+
+export const emptyAddress: AddressDTO = {
+  city: "",
+  lines: [],
+  postalCode: "",
+  state: "",
+  use: "",
+};

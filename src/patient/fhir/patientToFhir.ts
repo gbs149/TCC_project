@@ -1,6 +1,6 @@
 import { Patient } from "fhir/r4";
 import { map } from "fp-ts/lib/Either";
-import { getOrElse } from "fp-ts/lib/Option";
+import { CPF_NAMING_SYSTEM } from "../../constants/constants";
 import { PatientModel } from "../model/PatientModel";
 import { AddressUseType, GenderType } from "./valueSets";
 
@@ -11,11 +11,7 @@ export const fromModel = (patient: PatientModel): Patient => ({
   address: [
     {
       city: patient.currentAddress.city,
-      line: [
-        `${patient.currentAddress.street}, ${
-          patient.currentAddress.number
-        } ${getOrElse(() => "")(patient.currentAddress.complement)}`,
-      ],
+      line: patient.currentAddress.lines,
       postalCode: patient.currentAddress.postalCode,
       state: patient.currentAddress.state,
       use: patient.currentAddress.use as AddressUseType,
@@ -25,7 +21,7 @@ export const fromModel = (patient: PatientModel): Patient => ({
   gender: patient.gender as GenderType, // uhghhh
   identifier: [
     {
-      system: "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cpf",
+      system: CPF_NAMING_SYSTEM,
       value: patient.cpf,
     },
   ],

@@ -4,7 +4,7 @@ import { right } from "fp-ts/lib/Either";
 describe("Email", () => {
   it("should a valid EmailContact", function () {
     const e = makeEmailContact({
-      email: "foo@bar.com",
+      value: "foo@bar.com",
       use: "home",
     });
     expect(e).toStrictEqual(right({ use: "home", value: "foo@bar.com" }));
@@ -12,7 +12,7 @@ describe("Email", () => {
 
   it("should return validation errors for invalid input", function () {
     const e = makeEmailContact({
-      email: "foo@bar",
+      value: "foo@bar",
       use: "hommey",
     });
     expect(e).toStrictEqual({

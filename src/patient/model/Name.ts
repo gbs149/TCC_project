@@ -1,9 +1,9 @@
 import { Either, left, map, right } from "fp-ts/lib/Either";
-import { isValidString } from "../../validation/boundedString";
+import { isValidString } from "../validation/boundedString";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { pipe } from "fp-ts/lib/function";
 import { sequenceT } from "fp-ts/lib/Apply";
-import { applicativeValidation } from "../../validation/applicativeValidation";
+import { applicativeValidation } from "../validation/applicativeValidation";
 
 export interface Name {
   readonly first: string;

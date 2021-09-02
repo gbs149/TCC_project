@@ -1,5 +1,5 @@
 import { Either, left, right } from "fp-ts/lib/Either";
-import { isValidPostalCode } from "../../../validation/postalCode";
+import { isValidPostalCode } from "../../validation/postalCode";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
 interface PostalCodeBrand {

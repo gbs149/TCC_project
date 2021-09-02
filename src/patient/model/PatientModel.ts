@@ -14,12 +14,12 @@ import { makePhoneContact, PhoneContact } from "./Phone";
 import { EmailContact, makeEmailContact } from "./Email";
 import { Address, makeAddress } from "./Address/Address";
 import { PatientDTO } from "./PatientDTO";
-import { applicativeValidation } from "../../validation/applicativeValidation";
+import { applicativeValidation } from "../validation/applicativeValidation";
 import { GenderType } from "../fhir/valueSets";
 
 export interface PatientModel {
-  id: Id;
-  active: boolean;
+  id?: Id;
+  active?: boolean;
   birthdate: Birthdate;
   cpf: CPF;
   email: EmailContact;
