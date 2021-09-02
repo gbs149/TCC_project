@@ -6,7 +6,7 @@ import { sequenceT } from "fp-ts/lib/Apply";
 import { makeContactUse } from "./ContactUse";
 import { isValidEmail } from "../../validation/emailValidation";
 import { applicativeValidation } from "../../validation/applicativeValidation";
-import { ContactUseType } from "../fhir/useTypes";
+import { ContactUseType } from "../fhir/valueSets";
 
 export const makeEmail = (s: string): Either<NonEmptyArray<string>, string> =>
   isValidEmail(s) ? right(s) : left(["Invalid email"]);

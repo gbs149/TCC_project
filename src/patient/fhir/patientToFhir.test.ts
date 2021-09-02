@@ -1,4 +1,4 @@
-import { fromValidatedModel } from "./patientFhir";
+import { fromValidatedModel } from "./patientToFhir";
 import { PatientDTO } from "../model/PatientDTO";
 import { createPatient } from "../model/PatientModel";
 

@@ -13,7 +13,7 @@ import { pipe } from "fp-ts/lib/function";
 import { sequenceT } from "fp-ts/lib/Apply";
 import { applicativeValidation } from "../../../validation/applicativeValidation";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { AddressUseType } from "../../fhir/useTypes";
+import { AddressUseType } from "../../fhir/valueSets";
 
 export interface Address {
   city: City;
