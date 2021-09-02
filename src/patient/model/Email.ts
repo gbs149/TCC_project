@@ -4,8 +4,8 @@ import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { sequenceT } from "fp-ts/lib/Apply";
 
 import { makeContactUse } from "./ContactUse";
-import { isValidEmail } from "../../validation/emailValidation";
-import { applicativeValidation } from "../../validation/applicativeValidation";
+import { isValidEmail } from "../validation/emailValidation";
+import { applicativeValidation } from "../validation/applicativeValidation";
 import { ContactUseType } from "../fhir/valueSets";
 
 export const makeEmail = (s: string): Either<NonEmptyArray<string>, string> =>
@@ -25,13 +25,13 @@ const toEmailContact = ([email, use]: [
 });
 
 export const makeEmailContact = ({
-  email,
+  value,
   use,
 }: {
-  email: string;
+  value: string;
   use: string;
 }): Either<NonEmptyArray<string>, EmailContact> =>
   pipe(
-    sequenceT(applicativeValidation)(makeEmail(email), makeContactUse(use)),
+    sequenceT(applicativeValidation)(makeEmail(value), makeContactUse(use)),
     map(toEmailContact)
   );

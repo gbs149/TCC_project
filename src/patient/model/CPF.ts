@@ -1,5 +1,5 @@
 import { Either, left, right } from "fp-ts/lib/Either";
-import { isValidCpf } from "../../validation/cpfValidation";
+import { isValidCpf } from "../validation/cpfValidation";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
 interface CPFBrand {
