@@ -15,7 +15,7 @@ import { EmailContact, makeEmailContact } from "./Email";
 import { Address, makeAddress } from "./Address/Address";
 import { PatientDTO } from "./PatientDTO";
 import { applicativeValidation } from "../../validation/applicativeValidation";
-import { GenderType } from "../fhir/useTypes";
+import { GenderType } from "../fhir/valueSets";
 
 export interface PatientModel {
   id: Id;
