@@ -6,11 +6,11 @@ import { findCurrent } from "./current";
 import { findBySystem } from "./withSystem";
 
 const getTelecom =
-  (s: string) =>
-  (p: Patient): { value: string; use: string } =>
+  (system: string) =>
+  (patient: Patient): { value: string; use: string } =>
     pipe(
-      findCurrent(p.telecom),
-      findBySystem(s),
+      findCurrent(patient.telecom),
+      findBySystem(system),
       map(toContactDTO),
       getOrElse(() => ({ value: "", use: "" }))
     );
