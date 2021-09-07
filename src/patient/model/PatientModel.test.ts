@@ -73,7 +73,7 @@ describe("Patient", () => {
         "Invalid postal code",
         "Invalid state",
         "Invalid address use",
-        "Invalid birthdate",
+        "Birthdate must be in the past",
         "Invalid CPF",
         "Invalid email",
         "Invalid contact use",

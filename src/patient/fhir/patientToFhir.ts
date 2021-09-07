@@ -1,10 +1,10 @@
-import { Patient } from "fhir/r4";
+import { Patient as FhirPatient } from "fhir/r4";
 import { map } from "fp-ts/lib/Either";
 import { CPF_NAMING_SYSTEM } from "../../constants/constants";
 import { PatientModel } from "../model/PatientModel";
 import { AddressUseType, GenderType } from "./valueSets";
 
-export const fromModel = (patient: PatientModel): Patient => ({
+export const fromModel = (patient: PatientModel): FhirPatient => ({
   resourceType: "Patient",
   id: patient.id,
   active: patient.active,

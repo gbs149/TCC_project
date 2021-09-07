@@ -1,19 +1,18 @@
-import { Either, left, right } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { isBefore, isValid, parseISO } from "date-fns";
+import { chain, Either, left, right } from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 
-interface BirthdateBrand {
-  readonly Birthdate: unique symbol;
-}
+export type Birthdate = Date;
 
-export type Birthdate = Date & BirthdateBrand;
+const isValidDate = (d: Date): Either<NonEmptyArray<string>, Date> =>
+  isValid(d) ? right(d) : left(["Invalid date"]);
 
-const isValidBirthdate = (d: Date): d is Birthdate =>
-  isValid(d) && isBefore(d, new Date());
+const isInPast = (d: Date): Either<NonEmptyArray<string>, Date> =>
+  isBefore(d, new Date()) ? right(d) : left(["Birthdate must be in the past"]);
 
 export const makeBirthdate = (
   d: string
 ): Either<NonEmptyArray<string>, Birthdate> => {
-  const date = parseISO(d);
-  return isValidBirthdate(date) ? right(date) : left(["Invalid birthdate"]);
+  return pipe(parseISO(d), isValidDate, chain(isInPast));
 };
