@@ -40,7 +40,7 @@ describe("Address creation", () => {
     expect(address).toStrictEqual({
       _tag: "Left",
       left: [
-        "Invalid city name",
+        "City name cannot be empty",
         "Invalid lines",
         "Invalid postal code",
         "Invalid state",
