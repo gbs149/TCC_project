@@ -16,7 +16,7 @@ export const getCurrentAddress = (patient: Patient): AddressDTO =>
 const toAddressDTO = (address: Address): AddressDTO => ({
   use: address.use,
   postalCode: address.postalCode,
-  lines: address.line,
+  lines: address.line ?? [],
   city: address.city,
   state: address.state,
 });
