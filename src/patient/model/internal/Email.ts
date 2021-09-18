@@ -5,9 +5,9 @@ import { sequenceT } from "fp-ts/lib/Apply";
 import { Contact } from "./Contact";
 
 import { makeContactUse } from "./ContactUse";
-import { isValidEmail } from "../validation/emailValidation";
-import { applicativeValidation } from "../validation/applicativeValidation";
-import { ContactUseType } from "../fhir/valueSets";
+import { isValidEmail } from "./validation/emailValidation";
+import { applicativeValidation } from "./validation/applicativeValidation";
+import { ContactUseType } from "../../fhir/internal/valueSets";
 
 export type EmailContact = Contact;
 

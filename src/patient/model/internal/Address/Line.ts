@@ -1,5 +1,5 @@
 import { every } from "fp-ts/lib/Array";
-import { isValidString } from "../../validation/boundedString";
+import { isValidString } from "../validation/boundedString";
 import { Either, left, right } from "fp-ts/lib/Either";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 

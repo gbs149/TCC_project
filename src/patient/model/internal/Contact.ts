@@ -1,4 +1,4 @@
-import { ContactUseType } from "../fhir/valueSets";
+import { ContactUseType } from "../../fhir/internal/valueSets";
 
 export interface Contact {
   readonly use: ContactUseType;

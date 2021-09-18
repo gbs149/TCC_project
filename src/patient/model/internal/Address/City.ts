@@ -1,7 +1,7 @@
 import { Either, left, right } from "fp-ts/lib/Either";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { isEmpty } from "fp-ts/lib/string";
-import { isNotEmpty, isShorterThan } from "../../validation/boundedString";
+import { isNotEmpty, isShorterThan } from "../validation/boundedString";
 
 interface CityBrand {
   readonly City: unique symbol;
