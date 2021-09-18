@@ -38,7 +38,7 @@ describe("Patient", () => {
         gender: "female",
         id: "generated",
         name: { first: "fsda", last: "asdf" },
-        phone: { use: "mobile", value: "51999977668" },
+        phone: { _tag: "Some", value: { use: "mobile", value: "51999977668" } },
       })
     );
   });

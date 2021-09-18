@@ -1,4 +1,5 @@
 import { Patient as FhirPatient } from "fhir/r4";
+import { getOrElse } from "fp-ts/lib/Option";
 import { Either } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
@@ -19,9 +20,15 @@ const fromFhirToDTO = (fhirPatient: FhirPatient): PatientDTO => ({
   active: fhirPatient.active,
   gender: fhirPatient.gender,
   birthdate: fhirPatient.birthDate,
-  cpf: getCpf(fhirPatient),
-  email: getEmail(fhirPatient),
-  phone: getPhone(fhirPatient),
+  cpf: getOrElse(() => "")(getCpf(fhirPatient)),
+  email: getOrElse(() => ({
+    value: "",
+    use: "",
+  }))(getEmail(fhirPatient)),
+  phone: getOrElse(() => ({
+    value: "",
+    use: "",
+  }))(getPhone(fhirPatient)),
   name: getName(fhirPatient),
   currentAddress: getCurrentAddress(fhirPatient),
 });

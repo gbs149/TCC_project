@@ -1,37 +1,43 @@
-import { Either, left, map, right } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { pipe } from "fp-ts/lib/function";
-import { sequenceT } from "fp-ts/lib/Apply";
-
-import { makeContactUse } from "./ContactUse";
-import { isValidPhoneNumber } from "../validation/phoneValidation";
-import { applicativeValidation } from "../validation/applicativeValidation";
+import { sequenceT } from "fp-ts/Apply";
+import { Either, left, map, right } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { fromNullable, match, none, Option, some } from "fp-ts/Option";
 import { ContactUseType } from "../fhir/valueSets";
+import { applicativeValidation } from "../validation/applicativeValidation";
+import { isValidPhoneNumber } from "../validation/phoneValidation";
+import { Contact } from "./Contact";
+import { makeContactUse } from "./ContactUse";
+import { PhoneDTO } from "./PhoneDTO";
 
-export const makePhone = (s: string): Either<NonEmptyArray<string>, string> =>
+export type PhoneContact = Contact;
+
+const makePhone = (s: string): Either<NonEmptyArray<string>, string> =>
   isValidPhoneNumber(s) ? right(s) : left(["Invalid phone number"]);
-
-export interface PhoneContact {
-  readonly use: ContactUseType;
-  readonly value: string;
-}
 
 const toPhoneContact = ([phone, use]: [
   string,
   ContactUseType
-]): PhoneContact => ({
-  value: phone,
-  use,
-});
+]): Option<PhoneContact> =>
+  some({
+    value: phone,
+    use,
+  });
 
-export const makePhoneContact = ({
+const makePhoneContact = ({
   value,
   use,
-}: {
-  value: string;
-  use: string;
-}): Either<NonEmptyArray<string>, PhoneContact> =>
+}: PhoneDTO): Either<NonEmptyArray<string>, Option<PhoneContact>> =>
   pipe(
     sequenceT(applicativeValidation)(makePhone(value), makeContactUse(use)),
     map(toPhoneContact)
+  );
+
+export const makeOptionPhoneContact = (
+  p: PhoneDTO
+): Either<NonEmptyArray<string>, Option<PhoneContact>> =>
+  pipe(
+    p,
+    fromNullable,
+    match(() => right(none), makePhoneContact)
   );

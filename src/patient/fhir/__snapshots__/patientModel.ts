@@ -13,5 +13,5 @@ export const expectedPatientModel = {
   gender: "male",
   id: "958fa59a-2e1a-471b-80f7-7c18d9222af5",
   name: { first: "Gabriel", last: "Bohrer Schmitt" },
-  phone: { use: "mobile", value: "+5551999935297" },
+  phone: { _tag: "Some", value: { use: "mobile", value: "+5551999935297" } },
 };
