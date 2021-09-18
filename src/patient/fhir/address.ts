@@ -3,11 +3,11 @@ import { head } from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import { getOrElse, map } from "fp-ts/lib/Option";
 import { AddressDTO, emptyAddress } from "../model/Address/AddressDTO";
-import { findCurrent } from "./current";
+import { findCurrent } from "./helpers/current";
 
 export const getCurrentAddress = (patient: Patient): AddressDTO =>
   pipe(
-    findCurrent(patient.address),
+    findCurrent(patient.address ?? []),
     head,
     map(toAddressDTO),
     getOrElse(() => emptyAddress)

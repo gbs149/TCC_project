@@ -1,21 +1,29 @@
 // First draft of a patient model with some requirements
 
-import { Either, map, right } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { pipe } from "fp-ts/lib/function";
 import { sequenceT } from "fp-ts/lib/Apply";
-
-import { makeGenderType } from "./GenderType";
-import { CPF, makeCPF } from "./CPF";
+import { Either, map, right } from "fp-ts/lib/Either";
+import { pipe } from "fp-ts/lib/function";
+import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { Option } from "fp-ts/lib/Option";
+import { GenderType } from "../fhir/valueSets";
+import { applicativeValidation } from "../validation/applicativeValidation";
+import { Address, makeAddress } from "./Address/Address";
 import { Birthdate, makeBirthdate } from "./Birthdate";
+import { CPF, makeCPF } from "./CPF";
+import { EmailContact, makeEmailContact } from "./Email";
+import { makeGenderType } from "./GenderType";
 import { Id } from "./Id";
 import { makeName, Name } from "./Name";
-import { makePhoneContact, PhoneContact } from "./Phone";
-import { EmailContact, makeEmailContact } from "./Email";
-import { Address, makeAddress } from "./Address/Address";
 import { PatientDTO } from "./PatientDTO";
-import { applicativeValidation } from "../validation/applicativeValidation";
-import { GenderType } from "../fhir/valueSets";
+import { makeOptionPhoneContact, PhoneContact } from "./Phone";
+
+// The data in the Resource covers the "who" information about the patient: its attributes are focused
+// on the demographic information necessary to support the administrative, financial and logistic procedures.
+// A Patient record is generally created and maintained by each organization providing care for a patient.
+// A patient or animal receiving care at multiple organizations may therefore have its information present
+// in multiple Patient Resources.
+
+// http://hl7.org/fhir/patient.html
 
 export interface PatientModel {
   id?: Id;
@@ -25,7 +33,7 @@ export interface PatientModel {
   email: EmailContact;
   gender: GenderType;
   name: Name;
-  phone: PhoneContact;
+  phone: Option<PhoneContact>;
   currentAddress: Address;
 }
 
@@ -48,7 +56,7 @@ const toPatient = ([
   EmailContact,
   GenderType,
   Name,
-  PhoneContact
+  Option<PhoneContact>
 ]): PatientModel => ({
   id,
   active,
@@ -82,7 +90,7 @@ export const createPatient = ({
       makeEmailContact(email),
       makeGenderType(gender),
       makeName(name),
-      makePhoneContact(phone)
+      makeOptionPhoneContact(phone)
     ),
     map(toPatient)
   );

@@ -1,17 +1,26 @@
 import { fromValidatedModel } from "./patientToFhir";
 import { createPatient } from "../model/PatientModel";
 
-import { patientDTO } from "./__fixtures__/patientDTO";
-import { patientFhir } from "./__snapshots__/patientFhir";
+import { noPhonePatientDTO, patientDTO } from "./__fixtures__/patientDTO";
+import { patientFhir, noPhonePatientFhir } from "./__snapshots__/patientFhir";
 import { invalidPatientDTO } from "./__fixtures__/invalidPatientDTO";
 
 describe("patientFhir", () => {
   it("should create a valid fhir resource from PatientModel", () => {
     const patient = createPatient(patientDTO);
     const fhirP = fromValidatedModel(patient);
-    expect(fhirP).toEqual({
+    expect(fhirP).toStrictEqual({
       _tag: "Right",
       right: patientFhir,
+    });
+  });
+
+  it("should create a valid fhir resource from PatientModel with no phone", () => {
+    const patient = createPatient(noPhonePatientDTO);
+    const fhirP = fromValidatedModel(patient);
+    expect(fhirP).toStrictEqual({
+      _tag: "Right",
+      right: noPhonePatientFhir,
     });
   });
 

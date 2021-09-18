@@ -1,4 +1,5 @@
 import { AddressDTO } from "./Address/AddressDTO";
+import { PhoneDTO } from "./PhoneDTO";
 
 export interface PatientDTO {
   id?: string;
@@ -8,6 +9,6 @@ export interface PatientDTO {
   email: { value: string; use: string };
   gender: string;
   name: { first: string; last: string };
-  phone: { value: string; use: string };
+  phone?: PhoneDTO;
   currentAddress: AddressDTO;
 }
