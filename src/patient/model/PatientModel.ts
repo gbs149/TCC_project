@@ -5,17 +5,17 @@ import { Either, map, right } from "fp-ts/lib/Either";
 import { pipe } from "fp-ts/lib/function";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { Option } from "fp-ts/lib/Option";
-import { GenderType } from "../fhir/valueSets";
-import { applicativeValidation } from "../validation/applicativeValidation";
-import { Address, makeAddress } from "./Address/Address";
-import { Birthdate, makeBirthdate } from "./Birthdate";
-import { CPF, makeCPF } from "./CPF";
-import { EmailContact, makeEmailContact } from "./Email";
-import { makeGenderType } from "./GenderType";
-import { Id } from "./Id";
-import { makeName, Name } from "./Name";
+import { GenderType } from "../fhir/internal/valueSets";
+import { applicativeValidation } from "./internal/validation/applicativeValidation";
+import { Address, makeAddress } from "./internal/Address/Address";
+import { Birthdate, makeBirthdate } from "./internal/Birthdate";
+import { CPF, makeCPF } from "./internal/CPF";
+import { EmailContact, makeEmailContact } from "./internal/Email";
+import { makeGenderType } from "./internal/GenderType";
+import { Id } from "./internal/Id";
+import { makeName, Name } from "./internal/Name";
 import { PatientDTO } from "./PatientDTO";
-import { makeOptionPhoneContact, PhoneContact } from "./Phone";
+import { makeOptionPhoneContact, PhoneContact } from "./internal/Phone";
 
 // The data in the Resource covers the "who" information about the patient: its attributes are focused
 // on the demographic information necessary to support the administrative, financial and logistic procedures.

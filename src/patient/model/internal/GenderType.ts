@@ -1,6 +1,6 @@
 import { Either, left, right } from "fp-ts/Either";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { GenderType, genderTypes } from "../fhir/valueSets";
+import { GenderType, genderTypes } from "../../fhir/internal/valueSets";
 
 export const makeGenderType = (
   s: string

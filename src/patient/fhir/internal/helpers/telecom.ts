@@ -2,9 +2,9 @@ import { ContactPoint } from "fhir/r4";
 import { concat, fromOption } from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import * as Option from "fp-ts/lib/Option";
-import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../../constants/constants";
-import { Contact } from "../../model/Contact";
-import { PatientModel } from "../../model/PatientModel";
+import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../../../constants/constants";
+import { Contact } from "../../../model/internal/Contact";
+import { PatientModel } from "../../../model/PatientModel";
 
 export const toTelecom = (patient: PatientModel): ContactPoint[] =>
   concat([toEmailContactPoint(patient.email)])(

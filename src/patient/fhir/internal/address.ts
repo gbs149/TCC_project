@@ -2,7 +2,10 @@ import { Address, Patient } from "fhir/r4";
 import { head } from "fp-ts/lib/Array";
 import { pipe } from "fp-ts/lib/function";
 import { getOrElse, map } from "fp-ts/lib/Option";
-import { AddressDTO, emptyAddress } from "../model/Address/AddressDTO";
+import {
+  AddressDTO,
+  emptyAddress,
+} from "../../model/internal/Address/AddressDTO";
 import { findCurrent } from "./helpers/current";
 
 export const getCurrentAddress = (patient: Patient): AddressDTO =>

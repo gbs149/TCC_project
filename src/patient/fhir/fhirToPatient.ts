@@ -5,10 +5,10 @@ import { pipe } from "fp-ts/lib/function";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
 import { PatientDTO } from "../model/PatientDTO";
 import { createPatient, PatientModel } from "../model/PatientModel";
-import { getCurrentAddress } from "./address";
-import { getCpf } from "./cpf";
-import { getName } from "./name";
-import { getEmail, getPhone } from "./telecom";
+import { getCurrentAddress } from "./internal/address";
+import { getCpf } from "./internal/cpf";
+import { getName } from "./internal/name";
+import { getEmail, getPhone } from "./internal/telecom";
 
 export const fromFhir = (
   fhirPatient: FhirPatient

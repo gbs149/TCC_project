@@ -1,7 +1,7 @@
 import { ContactPoint, Patient } from "fhir/r4";
 import { pipe } from "fp-ts/lib/function";
 import { map, Option } from "fp-ts/lib/Option";
-import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../constants/constants";
+import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../../constants/constants";
 import { findCurrent } from "./helpers/current";
 import { findBySystem } from "./helpers/withSystem";
 

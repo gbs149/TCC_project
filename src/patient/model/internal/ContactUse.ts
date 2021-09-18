@@ -1,6 +1,6 @@
 import { Either, left, right } from "fp-ts/lib/Either";
 import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { contactUses, ContactUseType } from "../fhir/valueSets";
+import { contactUses, ContactUseType } from "../../fhir/internal/valueSets";
 
 export const makeContactUse = (
   s: string
