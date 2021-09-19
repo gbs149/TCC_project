@@ -11,4 +11,9 @@ const parsePhoneNumber = (num: string): PhoneNumber =>
 const isValidPhoneNumber = (num: string): boolean =>
   parsePhoneNumber(num)?.isValid() ?? false;
 
-export { isValidPhoneNumber };
+const formatPhoneNumber = (num: string): string => {
+  const phone = parsePhoneNumber(num);
+  return phone.format("E.164");
+};
+
+export { formatPhoneNumber, isValidPhoneNumber };

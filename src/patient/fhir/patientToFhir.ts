@@ -1,10 +1,6 @@
-import { ContactPoint, Patient as FhirPatient } from "fhir/r4";
-import { concat, fromOption } from "fp-ts/Array";
+import { Patient as FhirPatient } from "fhir/r4";
 import { map } from "fp-ts/Either";
-import { pipe } from "fp-ts/function";
-import * as Option from "fp-ts/Option";
 import { CPF_NAMING_SYSTEM } from "../../constants/constants";
-import { Contact } from "../model/internal/Contact";
 import { PatientModel } from "../model/PatientModel";
 import { toTelecom } from "./internal/helpers/telecom";
 import { AddressUseType } from "./internal/valueSets";
@@ -22,6 +18,7 @@ export const fromModel = (patient: PatientModel): FhirPatient => ({
       use: patient.currentAddress.use as AddressUseType,
     },
   ],
+  // TODO: format string to "YYYY-MM-DD"
   birthDate: patient.birthdate.toISOString(),
   gender: patient.gender,
   identifier: [

@@ -1,7 +1,7 @@
 import { isBefore, isValid, parseISO } from "date-fns";
-import { chain, Either, left, right } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { chain, Either, left, right } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 
 // this is not as strict as using `brands`: we can use any date in place of a Birthdate.
 // But if we only use the `makeBirthdate` function to create a Birthdate we can be safe

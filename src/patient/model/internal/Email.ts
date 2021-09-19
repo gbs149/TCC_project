@@ -1,8 +1,9 @@
-import { Either, left, map, right } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { sequenceT } from "fp-ts/lib/Apply";
+import { Either, left, map, right } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { sequenceT } from "fp-ts/Apply";
 import { Contact } from "./Contact";
+import { ContactDTO } from "./ContactDTO";
 
 import { makeContactUse } from "./ContactUse";
 import { isValidEmail } from "./validation/emailValidation";
@@ -25,10 +26,7 @@ const toEmailContact = ([email, use]: [
 export const makeEmailContact = ({
   value,
   use,
-}: {
-  value: string;
-  use: string;
-}): Either<NonEmptyArray<string>, EmailContact> =>
+}: ContactDTO): Either<NonEmptyArray<string>, EmailContact> =>
   pipe(
     sequenceT(applicativeValidation)(makeEmail(value), makeContactUse(use)),
     map(toEmailContact)

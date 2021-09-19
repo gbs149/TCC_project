@@ -1,10 +1,10 @@
 // First draft of a patient model with some requirements
 
-import { sequenceT } from "fp-ts/lib/Apply";
-import { Either, map, right } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { Option } from "fp-ts/lib/Option";
+import { sequenceT } from "fp-ts/Apply";
+import { Either, map, right } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { Option } from "fp-ts/Option";
 import { GenderType } from "../fhir/internal/valueSets";
 import { applicativeValidation } from "./internal/validation/applicativeValidation";
 import { Address, makeAddress } from "./internal/Address/Address";
@@ -12,7 +12,7 @@ import { Birthdate, makeBirthdate } from "./internal/Birthdate";
 import { CPF, makeCPF } from "./internal/CPF";
 import { EmailContact, makeEmailContact } from "./internal/Email";
 import { makeGenderType } from "./internal/GenderType";
-import { Id } from "./internal/Id";
+import { Id, makeId } from "./internal/Id";
 import { makeName, Name } from "./internal/Name";
 import { PatientDTO } from "./PatientDTO";
 import { makeOptionPhoneContact, PhoneContact } from "./internal/Phone";
@@ -27,7 +27,7 @@ import { makeOptionPhoneContact, PhoneContact } from "./internal/Phone";
 
 export interface PatientModel {
   id?: Id;
-  active?: boolean;
+  active: boolean;
   birthdate: Birthdate;
   cpf: CPF;
   email: EmailContact;
@@ -82,7 +82,7 @@ export const createPatient = ({
 }: PatientDTO): Either<NonEmptyArray<string>, PatientModel> =>
   pipe(
     sequenceT(applicativeValidation)(
-      right(id),
+      makeId(id),
       right(active),
       makeAddress(currentAddress),
       makeBirthdate(birthdate),

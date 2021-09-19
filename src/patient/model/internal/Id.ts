@@ -9,4 +9,18 @@
 
 // http://hl7.org/fhir/resource.html#id
 
-export type Id = string;
+import { Either, left, right } from "fp-ts/Either";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+
+const idRegex = /^[\w\d-.]{1,64}$/;
+
+interface IdBrand {
+  readonly ID: unique symbol;
+}
+
+export type Id = string & IdBrand;
+
+const isId = (s: string): s is Id => idRegex.test(s);
+
+export const makeId = (s: string): Either<NonEmptyArray<string>, Id> =>
+  isId(s) ? right(s) : left(["Invalid id"]);

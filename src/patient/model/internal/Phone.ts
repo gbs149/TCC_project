@@ -5,15 +5,20 @@ import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { fromNullable, match, none, Option, some } from "fp-ts/Option";
 import { ContactUseType } from "../../fhir/internal/valueSets";
 import { applicativeValidation } from "./validation/applicativeValidation";
-import { isValidPhoneNumber } from "./validation/phoneValidation";
+import {
+  formatPhoneNumber,
+  isValidPhoneNumber,
+} from "./validation/phoneValidation";
 import { Contact } from "./Contact";
 import { makeContactUse } from "./ContactUse";
-import { PhoneDTO } from "./PhoneDTO";
+import { ContactDTO } from "./ContactDTO";
 
 export type PhoneContact = Contact;
 
 const makePhone = (s: string): Either<NonEmptyArray<string>, string> =>
-  isValidPhoneNumber(s) ? right(s) : left(["Invalid phone number"]);
+  isValidPhoneNumber(s)
+    ? right(formatPhoneNumber(s))
+    : left(["Invalid phone number"]);
 
 const toPhoneContact = ([phone, use]: [
   string,
@@ -27,14 +32,14 @@ const toPhoneContact = ([phone, use]: [
 const makePhoneContact = ({
   value,
   use,
-}: PhoneDTO): Either<NonEmptyArray<string>, Option<PhoneContact>> =>
+}: ContactDTO): Either<NonEmptyArray<string>, Option<PhoneContact>> =>
   pipe(
     sequenceT(applicativeValidation)(makePhone(value), makeContactUse(use)),
     map(toPhoneContact)
   );
 
 export const makeOptionPhoneContact = (
-  p: PhoneDTO
+  p: ContactDTO
 ): Either<NonEmptyArray<string>, Option<PhoneContact>> =>
   pipe(
     p,

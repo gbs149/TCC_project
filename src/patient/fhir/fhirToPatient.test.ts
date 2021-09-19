@@ -1,23 +1,31 @@
 import { Patient } from "fhir/r4";
-import { Either } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { Either } from "fp-ts/Either";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 
 import { PatientModel } from "../model/PatientModel";
 import { fromFhir } from "./fhirToPatient";
 
-import { patient } from "./__fixtures__/patientFhir";
-import { expectedPatientModel } from "./__snapshots__/patientModel";
+import { patient, patientWithNoPhone } from "../__fixtures__/patientFhir";
+import {
+  completePatientModel,
+  noPhonePatientModel,
+} from "../__snapshots__/patientModel";
 
 describe("FHIR to Patient model", () => {
   it("should map from fhir to model", () => {
     const patientModel: Either<NonEmptyArray<string>, PatientModel> = fromFhir(
       patient
     );
-    expect(patientModel).toStrictEqual({
-      _tag: "Right",
-      right: expectedPatientModel,
-    });
+    expect(patientModel).toStrictEqual(completePatientModel);
   });
+
+  it("should map from fhir to model with no phone", () => {
+    const patientModel: Either<NonEmptyArray<string>, PatientModel> = fromFhir(
+      patientWithNoPhone
+    );
+    expect(patientModel).toStrictEqual(noPhonePatientModel);
+  });
+
   it("should map from fhir to list of errors", () => {
     const p: Patient = { resourceType: "Patient" };
     const patientModel: Either<NonEmptyArray<string>, PatientModel> = fromFhir(
@@ -37,8 +45,6 @@ describe("FHIR to Patient model", () => {
         "Invalid gender type",
         "Invalid first name",
         "Invalid last name",
-        "Invalid phone number",
-        "Invalid contact use",
       ],
     });
   });

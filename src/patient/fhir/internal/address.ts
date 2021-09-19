@@ -1,7 +1,8 @@
 import { Address, Patient } from "fhir/r4";
-import { head } from "fp-ts/lib/Array";
-import { pipe } from "fp-ts/lib/function";
-import { getOrElse, map } from "fp-ts/lib/Option";
+import { head } from "fp-ts/Array";
+import { pipe } from "fp-ts/function";
+import { map } from "fp-ts/Option";
+import { orElse } from "../../../helpers/fp-helpers";
 import {
   AddressDTO,
   emptyAddress,
@@ -10,10 +11,10 @@ import { findCurrent } from "./helpers/current";
 
 export const getCurrentAddress = (patient: Patient): AddressDTO =>
   pipe(
-    findCurrent(patient.address ?? []),
+    findCurrent(patient.address),
     head,
     map(toAddressDTO),
-    getOrElse(() => emptyAddress)
+    orElse(emptyAddress)
   );
 
 const toAddressDTO = (address: Address): AddressDTO => ({
