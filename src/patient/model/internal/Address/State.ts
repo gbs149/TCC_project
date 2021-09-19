@@ -1,5 +1,5 @@
-import { Either, left, right } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { Either, left, right } from "fp-ts/Either";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 
 const states = [
   "AC",

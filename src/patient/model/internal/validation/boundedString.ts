@@ -1,8 +1,8 @@
-import { pipe } from "fp-ts/lib/function";
-import { Ord } from "fp-ts/lib/number";
-import { gt, lt } from "fp-ts/lib/Ord";
-import { not } from "fp-ts/lib/Predicate";
-import { isEmpty, size, trim } from "fp-ts/lib/string";
+import { pipe } from "fp-ts/function";
+import { Ord } from "fp-ts/number";
+import { gt, lt } from "fp-ts/Ord";
+import { not } from "fp-ts/Predicate";
+import { isEmpty, size, trim } from "fp-ts/string";
 
 type numberComparisonFunction = (first: number, second: number) => boolean;
 const curriedOrd =
@@ -11,11 +11,6 @@ const curriedOrd =
 
 const curriedGt = curriedOrd(gt(Ord));
 const curriedLt = curriedOrd(lt(Ord));
-
-export const isLongerThan =
-  (n: number) =>
-  (s: string): boolean =>
-    pipe(trim(s), size, curriedLt(n));
 
 export const isShorterThan =
   (n: number) =>

@@ -1,14 +1,14 @@
 import { AddressDTO } from "./internal/Address/AddressDTO";
-import { PhoneDTO } from "./internal/PhoneDTO";
+import { ContactDTO } from "./internal/ContactDTO";
 
 export interface PatientDTO {
   id?: string;
-  active?: boolean;
+  active: boolean;
   birthdate: string;
   cpf: string;
   email: { value: string; use: string };
   gender: string;
   name: { first: string; last: string };
-  phone?: PhoneDTO;
+  phone?: ContactDTO;
   currentAddress: AddressDTO;
 }

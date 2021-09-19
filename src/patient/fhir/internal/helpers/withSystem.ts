@@ -1,5 +1,5 @@
-import { findFirst } from "fp-ts/lib/Array";
-import { Option } from "fp-ts/lib/Option";
+import { findFirst } from "fp-ts/Array";
+import { Option } from "fp-ts/Option";
 
 interface WithSystem {
   system?: string;
@@ -7,5 +7,5 @@ interface WithSystem {
 
 export const findBySystem =
   (system: string) =>
-  <T extends WithSystem>(ts: T[]): Option<T> =>
+  <T extends WithSystem>(ts: T[] = []): Option<T> =>
     findFirst<T>((t) => t.system === system)(ts);

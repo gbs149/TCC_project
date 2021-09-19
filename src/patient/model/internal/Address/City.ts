@@ -1,6 +1,6 @@
-import { Either, left, right } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
-import { isEmpty } from "fp-ts/lib/string";
+import { Either, left, right } from "fp-ts/Either";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { isEmpty } from "fp-ts/string";
 import { isNotEmpty, isShorterThan } from "../validation/boundedString";
 
 interface CityBrand {

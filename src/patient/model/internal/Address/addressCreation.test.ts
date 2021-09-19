@@ -48,4 +48,27 @@ describe("Address creation", () => {
       ],
     });
   });
+
+  it("should return left for invalid values 2", () => {
+    const addressDTO: AddressDTO = {
+      city: "Porto de Lisboa Alegre São Leopoldo Feliz da Praia Norte",
+      lines: ["", "Rua Prov. Duplov, 61 apto. 205"],
+      postalCode: "asdf",
+      state: "TS",
+      use: "home sweet home",
+    };
+
+    const address = makeAddress(addressDTO);
+
+    expect(address).toStrictEqual({
+      _tag: "Left",
+      left: [
+        "City name cannot be longer than 50 characters",
+        "Invalid lines",
+        "Invalid postal code",
+        "Invalid state",
+        "Invalid address use",
+      ],
+    });
+  });
 });

@@ -1,8 +1,10 @@
 import { Patient as FhirPatient } from "fhir/r4";
-import { getOrElse } from "fp-ts/lib/Option";
-import { Either } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { Either } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { toNullable } from "fp-ts/Option";
+import { orElse } from "../../helpers/fp-helpers";
+import { emptyContactDTO } from "../model/internal/ContactDTO";
 import { PatientDTO } from "../model/PatientDTO";
 import { createPatient, PatientModel } from "../model/PatientModel";
 import { getCurrentAddress } from "./internal/address";
@@ -20,15 +22,9 @@ const fromFhirToDTO = (fhirPatient: FhirPatient): PatientDTO => ({
   active: fhirPatient.active,
   gender: fhirPatient.gender,
   birthdate: fhirPatient.birthDate,
-  cpf: getOrElse(() => "")(getCpf(fhirPatient)),
-  email: getOrElse(() => ({
-    value: "",
-    use: "",
-  }))(getEmail(fhirPatient)),
-  phone: getOrElse(() => ({
-    value: "",
-    use: "",
-  }))(getPhone(fhirPatient)),
+  cpf: pipe(getCpf(fhirPatient), orElse("")),
+  email: pipe(getEmail(fhirPatient), orElse(emptyContactDTO)),
+  phone: pipe(getPhone(fhirPatient), toNullable),
   name: getName(fhirPatient),
   currentAddress: getCurrentAddress(fhirPatient),
 });

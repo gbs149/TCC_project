@@ -1,7 +1,7 @@
-import { every } from "fp-ts/lib/Array";
+import { every } from "fp-ts/Array";
 import { isValidString } from "../validation/boundedString";
-import { Either, left, right } from "fp-ts/lib/Either";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { Either, left, right } from "fp-ts/Either";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 
 interface LineBrand {
   readonly Line: unique symbol;

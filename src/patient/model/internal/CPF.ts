@@ -1,6 +1,6 @@
-import { Either, left, right } from "fp-ts/lib/Either";
+import { Either, left, right } from "fp-ts/Either";
 import { isValidCpf } from "./validation/cpfValidation";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 
 interface CPFBrand {
   readonly CPF: unique symbol;

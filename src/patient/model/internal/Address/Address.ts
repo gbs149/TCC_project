@@ -1,7 +1,7 @@
-import { sequenceT } from "fp-ts/lib/Apply";
-import { Either, map } from "fp-ts/lib/Either";
-import { pipe } from "fp-ts/lib/function";
-import { NonEmptyArray } from "fp-ts/lib/NonEmptyArray";
+import { sequenceT } from "fp-ts/Apply";
+import { Either, map } from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { applicativeValidation } from "../validation/applicativeValidation";
 import { AddressUseType } from "../../../fhir/internal/valueSets";
 import { AddressDTO } from "./AddressDTO";

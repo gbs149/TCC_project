@@ -1,6 +1,6 @@
 import { ContactPoint, Patient } from "fhir/r4";
-import { pipe } from "fp-ts/lib/function";
-import { map, Option } from "fp-ts/lib/Option";
+import { pipe } from "fp-ts/function";
+import { map, Option } from "fp-ts/Option";
 import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../../constants/constants";
 import { findCurrent } from "./helpers/current";
 import { findBySystem } from "./helpers/withSystem";
@@ -8,11 +8,7 @@ import { findBySystem } from "./helpers/withSystem";
 const getTelecom =
   (system: string) =>
   (patient: Patient): Option<{ value: string; use: string }> =>
-    pipe(
-      findCurrent(patient.telecom ?? []),
-      findBySystem(system),
-      map(toContactDTO)
-    );
+    pipe(findCurrent(patient.telecom), findBySystem(system), map(toContactDTO));
 
 const toContactDTO = ({
   use,

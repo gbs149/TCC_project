@@ -1,13 +1,13 @@
 import { Patient } from "fhir/r4";
 
 export const patient: Patient = {
-  id: "958fa59a-2e1a-471b-80f7-7c18d9222af5",
+  id: "e378b8b7-e217-4543-b401-6b23d0537d47",
   name: [
     {
       use: "usual",
-      text: "Gabriel Bohrer Schmitt",
-      given: ["Gabriel"],
-      family: "Bohrer Schmitt",
+      text: "Thelonius Devadander Abercrombie Monk",
+      given: ["Thelonius", "Devadander"],
+      family: "Abercrombie Monk",
       period: {
         start: "2021-08-26T17:26:23.746Z",
       },
@@ -19,18 +19,18 @@ export const patient: Patient = {
     {
       use: "home",
       city: "Porto Alegre",
-      line: ["Rua Prv. Duplov", "nr. 65, apto.201"],
+      line: ["Rua Prov. Duplov, 61 apto. 205", "esquina com Ipiranga"],
       state: "RS",
       period: {
         start: "2021-08-26T17:26:23.746Z",
       },
-      postalCode: "90420030",
+      postalCode: "12312312",
     },
   ],
   telecom: [
     {
       use: "work",
-      value: "gabriel.schmitt@magrathealabs.com",
+      value: "thel.monk@blue.co",
       period: {
         start: "2021-08-26T16:48:13.799Z",
       },
@@ -38,22 +38,35 @@ export const patient: Patient = {
     },
     {
       use: "mobile",
-      value: "+5551999935297",
+      value: "+5551999977668",
       period: {
         start: "2021-08-26T16:48:13.799Z",
       },
       system: "phone",
     },
   ],
-  birthDate: "1972-12-15",
+  birthDate: "1969-12-13",
   identifier: [
     {
       period: {
         start: "2021-08-26T16:48:13.799Z",
       },
       system: "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cpf",
-      value: "48597830000",
+      value: "16905255505",
     },
   ],
   resourceType: "Patient",
+};
+export const patientWithNoPhone: Patient = {
+  ...patient,
+  telecom: [
+    {
+      use: "work",
+      value: "thel.monk@blue.co",
+      period: {
+        start: "2021-08-26T16:48:13.799Z",
+      },
+      system: "email",
+    },
+  ],
 };
