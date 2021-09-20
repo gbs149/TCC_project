@@ -4,7 +4,7 @@ import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { fromNullable, match, none, Option, some } from "fp-ts/Option";
 import { ContactDTO } from "../../DTOs/ContactDTO";
-import { ContactUseType } from "../../fhir/internal/valueSets";
+import { ContactUseType } from "../../fhir/internal/valueSets/contact";
 import { Contact } from "./Contact";
 import { makeContactUse } from "./ContactUse";
 import { applicativeValidation } from "./validation/applicativeValidation";

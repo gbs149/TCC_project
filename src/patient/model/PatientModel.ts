@@ -6,7 +6,7 @@ import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { Option } from "fp-ts/Option";
 import { PatientDTO } from "../DTOs/PatientDTO";
-import { GenderType } from "../fhir/internal/valueSets";
+import { GenderType } from "../fhir/internal/valueSets/gender";
 import { Address, makeAddress } from "./internal/Address/Address";
 import { Birthdate, makeBirthdate } from "./internal/Birthdate";
 import { CPF, makeCPF } from "./internal/CPF";

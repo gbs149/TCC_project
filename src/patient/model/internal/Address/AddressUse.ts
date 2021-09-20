@@ -1,6 +1,9 @@
 import { Either, left, right } from "fp-ts/Either";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
-import { addressUses, AddressUseType } from "../../../fhir/internal/valueSets";
+import {
+  addressUses,
+  AddressUseType,
+} from "../../../fhir/internal/valueSets/addressUse";
 
 const isAddressUse = (s: string): s is AddressUseType =>
   addressUses.includes(s as AddressUseType);
