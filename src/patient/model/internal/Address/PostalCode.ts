@@ -1,6 +1,6 @@
 import { Either, left, right } from "fp-ts/Either";
-import { isValidPostalCode } from "../validation/postalCode";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { isValidPostalCode } from "../validation/postalCode";
 
 interface PostalCodeBrand {
   readonly PostalCode: unique symbol;

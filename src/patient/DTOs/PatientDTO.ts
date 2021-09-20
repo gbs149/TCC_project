@@ -1,5 +1,5 @@
-import { AddressDTO } from "./internal/Address/AddressDTO";
-import { ContactDTO } from "./internal/ContactDTO";
+import { AddressDTO } from "./AddressDTO";
+import { ContactDTO } from "./ContactDTO";
 
 export interface PatientDTO {
   id?: string;

@@ -1,4 +1,4 @@
-import { PatientDTO } from "../model/PatientDTO";
+import { PatientDTO } from "../DTOs/PatientDTO";
 
 export const invalidPatientDTO: PatientDTO = {
   active: true,

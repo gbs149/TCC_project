@@ -5,8 +5,8 @@ import { Either, map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { Option } from "fp-ts/Option";
+import { PatientDTO } from "../DTOs/PatientDTO";
 import { GenderType } from "../fhir/internal/valueSets";
-import { applicativeValidation } from "./internal/validation/applicativeValidation";
 import { Address, makeAddress } from "./internal/Address/Address";
 import { Birthdate, makeBirthdate } from "./internal/Birthdate";
 import { CPF, makeCPF } from "./internal/CPF";
@@ -14,8 +14,8 @@ import { EmailContact, makeEmailContact } from "./internal/Email";
 import { makeGenderType } from "./internal/GenderType";
 import { Id, makeId } from "./internal/Id";
 import { makeName, Name } from "./internal/Name";
-import { PatientDTO } from "./PatientDTO";
 import { makeOptionPhoneContact, PhoneContact } from "./internal/Phone";
+import { applicativeValidation } from "./internal/validation/applicativeValidation";
 
 // The data in the Resource covers the "who" information about the patient: its attributes are focused
 // on the demographic information necessary to support the administrative, financial and logistic procedures.

@@ -6,9 +6,9 @@ import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../../../constants/constants";
 import { Contact } from "../../../model/internal/Contact";
 import { PatientModel } from "../../../model/PatientModel";
 
-export const toTelecom = (patient: PatientModel): ContactPoint[] =>
-  concat([toEmailContactPoint(patient.email)])(
-    pipe(patient.phone, Option.map(toPhoneContactPoint), fromOption)
+export const toTelecom = ({ email, phone }: PatientModel): ContactPoint[] =>
+  concat([toEmailContactPoint(email)])(
+    pipe(phone, Option.map(toPhoneContactPoint), fromOption)
   );
 
 const toContactPoint =

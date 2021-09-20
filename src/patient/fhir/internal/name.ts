@@ -3,12 +3,8 @@ import { head } from "fp-ts/Array";
 import { pipe } from "fp-ts/function";
 import { map } from "fp-ts/Option";
 import { orElse } from "../../../helpers/fp-helpers";
+import { NameDTO } from "../../DTOs/NameDTO";
 import { findCurrent } from "./helpers/current";
-
-export interface NameDTO {
-  first: string;
-  last: string;
-}
 
 const toNameDTO = (name: HumanName): NameDTO => ({
   first: name.given.join(" "),
