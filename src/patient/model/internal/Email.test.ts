@@ -1,5 +1,5 @@
-import { makeEmailContact } from "./Email";
 import { right } from "fp-ts/Either";
+import { makeEmailContact } from "./Email";
 
 describe("Email", () => {
   it("should a valid EmailContact", function () {

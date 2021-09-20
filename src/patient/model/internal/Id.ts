@@ -1,3 +1,6 @@
+import { Either, left, right } from "fp-ts/Either";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+
 // Each resource has an id element which contains the "logical id" of the resource assigned
 // by the server responsible for storing it. Resources always have a known logical id except
 // for a few special cases (e.g. when a new resource is being sent to a server to assign a
@@ -8,9 +11,6 @@
 //  and lowercase ASCII letters, numerals, "-" and "."
 
 // http://hl7.org/fhir/resource.html#id
-
-import { Either, left, right } from "fp-ts/Either";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 
 const idRegex = /^[\w\d-.]{1,64}$/;
 

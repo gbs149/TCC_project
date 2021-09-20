@@ -1,14 +1,13 @@
+import { sequenceT } from "fp-ts/Apply";
 import { Either, left, map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
-import { sequenceT } from "fp-ts/Apply";
-import { Contact } from "./Contact";
-import { ContactDTO } from "./ContactDTO";
-
-import { makeContactUse } from "./ContactUse";
-import { isValidEmail } from "./validation/emailValidation";
-import { applicativeValidation } from "./validation/applicativeValidation";
+import { ContactDTO } from "../../DTOs/ContactDTO";
 import { ContactUseType } from "../../fhir/internal/valueSets";
+import { Contact } from "./Contact";
+import { makeContactUse } from "./ContactUse";
+import { applicativeValidation } from "./validation/applicativeValidation";
+import { isValidEmail } from "./validation/emailValidation";
 
 export type EmailContact = Contact;
 

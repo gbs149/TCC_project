@@ -1,4 +1,4 @@
-import { AddressDTO } from "./AddressDTO";
+import { AddressDTO } from "../../../DTOs/AddressDTO";
 import { makeAddress } from "./Address";
 
 describe("Address creation", () => {

@@ -3,15 +3,15 @@ import { Either, left, map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { fromNullable, match, none, Option, some } from "fp-ts/Option";
+import { ContactDTO } from "../../DTOs/ContactDTO";
 import { ContactUseType } from "../../fhir/internal/valueSets";
+import { Contact } from "./Contact";
+import { makeContactUse } from "./ContactUse";
 import { applicativeValidation } from "./validation/applicativeValidation";
 import {
   formatPhoneNumber,
   isValidPhoneNumber,
 } from "./validation/phoneValidation";
-import { Contact } from "./Contact";
-import { makeContactUse } from "./ContactUse";
-import { ContactDTO } from "./ContactDTO";
 
 export type PhoneContact = Contact;
 
