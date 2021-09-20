@@ -1,4 +1,4 @@
-// TODO I need to find a better way...
+// Could not find a way to avoid this duplication :|
 
 export type AddressUseType = "home" | "work" | "temp" | "old" | "billing";
 export const addressUses: AddressUseType[] = [
