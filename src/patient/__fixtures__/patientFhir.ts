@@ -57,6 +57,7 @@ export const patient: Patient = {
   ],
   resourceType: "Patient",
 };
+
 export const patientWithNoPhone: Patient = {
   ...patient,
   telecom: [

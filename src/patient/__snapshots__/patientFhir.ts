@@ -31,6 +31,7 @@ export const patientFhir = {
     { system: "email", use: "work", value: "thel.monk@blue.co" },
   ],
 };
+
 export const noPhonePatientFhir = {
   ...patientFhir,
   telecom: [{ system: "email", use: "work", value: "thel.monk@blue.co" }],
