@@ -3,7 +3,7 @@ import { Either, map } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { AddressDTO } from "../../../DTOs/AddressDTO";
-import { AddressUseType } from "../../../fhir/internal/valueSets";
+import { AddressUseType } from "../../../fhir/internal/valueSets/addressUse";
 import { applicativeValidation } from "../validation/applicativeValidation";
 import { makeAddressUse } from "./AddressUse";
 import { City, makeCity } from "./City";

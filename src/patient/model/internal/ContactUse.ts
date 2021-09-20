@@ -1,6 +1,9 @@
 import { Either, left, right } from "fp-ts/Either";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
-import { contactUses, ContactUseType } from "../../fhir/internal/valueSets";
+import {
+  contactUses,
+  ContactUseType,
+} from "../../fhir/internal/valueSets/contact";
 
 const isContactUse = (s: string): s is ContactUseType =>
   contactUses.includes(s as ContactUseType);

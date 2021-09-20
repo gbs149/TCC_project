@@ -3,7 +3,7 @@ import { map } from "fp-ts/Either";
 import { CPF_NAMING_SYSTEM } from "../../constants/constants";
 import { PatientModel } from "../model/PatientModel";
 import { toTelecom } from "./internal/helpers/telecom";
-import { AddressUseType } from "./internal/valueSets";
+import { AddressUseType } from "./internal/valueSets/addressUse";
 
 export const fromModel = (patient: PatientModel): FhirPatient => ({
   resourceType: "Patient",

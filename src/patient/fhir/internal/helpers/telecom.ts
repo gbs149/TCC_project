@@ -5,6 +5,7 @@ import * as Option from "fp-ts/Option";
 import { EMAIL_SYSTEM, PHONE_SYSTEM } from "../../../../constants/constants";
 import { Contact } from "../../../model/internal/Contact";
 import { PatientModel } from "../../../model/PatientModel";
+import { ContactPointSystem } from "../valueSets/contact";
 
 export const toTelecom = ({ email, phone }: PatientModel): ContactPoint[] =>
   concat([toEmailContactPoint(email)])(
@@ -12,7 +13,7 @@ export const toTelecom = ({ email, phone }: PatientModel): ContactPoint[] =>
   );
 
 const toContactPoint =
-  (system: "phone" | "email" | "other" | "fax" | "pager" | "url" | "sms") =>
+  (system: ContactPointSystem) =>
   ({ use, value }: Contact): ContactPoint => ({
     system,
     use,
