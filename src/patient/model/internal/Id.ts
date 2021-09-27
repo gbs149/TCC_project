@@ -7,8 +7,8 @@ import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 // logical id in the create interaction). The logical id is unique within the space of all
 // resources of the same type on the same server. Once assigned by the server, the id is never changed.
 
-// TODO: validate => Ids can be up to 64 characters long, and contain any combination of upper
-//  and lowercase ASCII letters, numerals, "-" and "."
+// Ids can be up to 64 characters long, and contain any combination of upper
+// and lowercase ASCII letters, numerals, "-" and "."
 
 // http://hl7.org/fhir/resource.html#id
 

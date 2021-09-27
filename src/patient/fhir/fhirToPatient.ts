@@ -15,9 +15,9 @@ import { getEmail, getPhone } from "./internal/telecom";
 export const fromFhir = (
   fhirPatient: FhirPatient
 ): Either<NonEmptyArray<string>, PatientModel> =>
-  pipe(fromFhirToDTO(fhirPatient), createPatient);
+  pipe(fhirToDTO(fhirPatient), createPatient);
 
-const fromFhirToDTO = (fhirPatient: FhirPatient): PatientDTO => ({
+const fhirToDTO = (fhirPatient: FhirPatient): PatientDTO => ({
   id: fhirPatient.id,
   active: fhirPatient.active,
   gender: fhirPatient.gender,
