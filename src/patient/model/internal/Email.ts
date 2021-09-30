@@ -22,11 +22,13 @@ const toEmailContact = ([email, use]: [
   use,
 });
 
-export const makeEmailContact = ({
-  value,
-  use,
-}: ContactDTO): Either<NonEmptyArray<string>, EmailContact> =>
+export const makeEmailContact = (
+  email: ContactDTO
+): Either<NonEmptyArray<string>, EmailContact> =>
   pipe(
-    sequenceT(applicativeValidation)(makeEmail(value), makeContactUse(use)),
+    sequenceT(applicativeValidation)(
+      makeEmail(email?.value),
+      makeContactUse(email?.use)
+    ),
     map(toEmailContact)
   );

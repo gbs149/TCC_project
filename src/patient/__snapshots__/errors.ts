@@ -18,3 +18,21 @@ export const errors = {
     "Invalid contact use",
   ],
 };
+
+export const errorsForIncompleteDTO = {
+  _tag: "Left",
+  left: [
+    "City is required",
+    "Invalid lines",
+    "Invalid postal code",
+    "Invalid state",
+    "Invalid address use",
+    "Invalid date",
+    "Invalid CPF",
+    "Invalid email",
+    "Invalid contact use",
+    "Invalid gender type",
+    "Invalid first name",
+    "Invalid last name",
+  ],
+};
