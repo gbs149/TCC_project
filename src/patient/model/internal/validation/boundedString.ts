@@ -14,7 +14,7 @@ const curriedGt = curriedOrd(gt(Ord));
 export const isShorterThan =
   (n: number) =>
   (s: string): boolean =>
-    pipe(trim(s), size, curriedGt(n));
+    s !== undefined && pipe(trim(s), size, curriedGt(n));
 
 const isShorterThan100 = isShorterThan(100);
 

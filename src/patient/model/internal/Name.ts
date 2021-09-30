@@ -2,6 +2,7 @@ import { sequenceT } from "fp-ts/Apply";
 import { Either, left, map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { NameDTO } from "../../DTOs/NameDTO";
 import { applicativeValidation } from "./validation/applicativeValidation";
 import { isValidString } from "./validation/boundedString";
 
@@ -20,17 +21,11 @@ const toName = ([first, last]: [string, string]): Name => ({
   last,
 });
 
-export const makeName = ({
-  first,
-  last,
-}: {
-  first: string;
-  last: string;
-}): Either<NonEmptyArray<string>, Name> =>
+export const makeName = (name: NameDTO): Either<NonEmptyArray<string>, Name> =>
   pipe(
     sequenceT(applicativeValidation)(
-      makeValidString("first")(first.trim()),
-      makeValidString("last")(last.trim())
+      makeValidString("first")(name?.first.trim()),
+      makeValidString("last")(name?.last.trim())
     ),
     map(toName)
   );

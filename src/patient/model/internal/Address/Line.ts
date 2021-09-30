@@ -11,7 +11,10 @@ export type Line = string & LineBrand;
 
 const isValidLine = (s: string): s is Line => isValidString(s);
 
+const isValidLines = (ss: string[]) =>
+  ss !== undefined && every(isValidLine)(ss);
+
 export const makeLines = (
   ss: string[]
 ): Either<NonEmptyArray<string>, Line[]> =>
-  every(isValidLine)(ss) ? right(ss as Line[]) : left(["Invalid lines"]);
+  isValidLines(ss) ? right(ss as Line[]) : left(["Invalid lines"]);

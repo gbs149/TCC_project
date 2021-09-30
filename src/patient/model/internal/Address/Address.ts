@@ -28,20 +28,16 @@ const toAddress = ([city, lines, postalCode, state, use]: [
   AddressUseType
 ]) => ({ city, lines, postalCode, state, use });
 
-export const makeAddress = ({
-  city,
-  lines,
-  postalCode,
-  state,
-  use,
-}: AddressDTO): Either<NonEmptyArray<string>, Address> =>
+export const makeAddress = (
+  address?: AddressDTO
+): Either<NonEmptyArray<string>, Address> =>
   pipe(
     sequenceT(applicativeValidation)(
-      makeCity(city),
-      makeLines(lines),
-      makePostalCode(postalCode),
-      makeState(state),
-      makeAddressUse(use)
+      makeCity(address?.city),
+      makeLines(address?.lines),
+      makePostalCode(address?.postalCode),
+      makeState(address?.state),
+      makeAddressUse(address?.use)
     ),
     map(toAddress)
   );
