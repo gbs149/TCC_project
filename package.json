@@ -23,11 +23,13 @@
   "dependencies": {
     "@koa/router": "^10.1.1",
     "@types/koa-bodyparser": "^4.3.3",
+    "@types/pg": "^8.6.1",
     "date-fns": "^2.23.0",
     "fp-ts": "^2.11.1",
     "koa": "^2.13.3",
     "koa-bodyparser": "^4.3.0",
     "libphonenumber-js": "^1.9.23",
+    "pg": "^8.7.1",
     "validar-cpf": "^2.1.2"
   },
   "devDependencies": {
