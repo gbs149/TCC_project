@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  fhirbase:
+    user: postgres
+    image: fhirbase/fhirbase:latest
+    container_name: fhirbase
+    ports:
+      - "5432:5432"
+    volumes:
+      - fb-data:/var/lib/postgresql/data/
+    environment:
+      - PGHOST=localhost
+      - PGUSER=postgres
+      - PGDATABASE=fhirbase
+      - PGPASSWORD=postgres
+      - PGPORT=5432
+
+  server:
+    build:
+      context: .
+    container_name: tcc-project
+    ports:
+      - "9090:9090"
+    command: npm start
+volumes:
+  fb-data:
