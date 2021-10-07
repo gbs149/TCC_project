@@ -8,13 +8,9 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - fb-data:/var/lib/postgresql/data/
-    environment:
-      - PGHOST=localhost
-      - PGUSER=postgres
-      - PGDATABASE=fhirbase
-      - PGPASSWORD=postgres
-      - PGPORT=5432
+      - fb-data:/var/lib/postgresql/data
+    env_file:
+      - .env
 
   server:
     build:
@@ -22,6 +18,8 @@ services:
     container_name: tcc-project
     ports:
       - "9090:9090"
-    command: npm start
+    env_file:
+      - .env
+
 volumes:
   fb-data:
