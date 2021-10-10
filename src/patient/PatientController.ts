@@ -1,19 +1,45 @@
-import { Patient } from "fhir/r4";
-import { map } from "fp-ts/Array";
+import { Patient, Resource } from "fhir/r4";
+import * as A from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import { flow, pipe } from "fp-ts/function";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import * as O from "fp-ts/Option";
 import { fhirbase } from "../common/fhirbase";
+import { PatientDTO } from "./DTOs/PatientDTO";
 import { fromFhir } from "./fhir/fhirToPatient";
 import { fromModel } from "./fhir/patientToFhir";
-import { PatientModel } from "./model/PatientModel";
+import { createPatient, PatientModel } from "./model/PatientModel";
 
-const patientFhirebase = fhirbase("Patient");
+const patientFhirbase = fhirbase("patient");
 
-export const getAllPatients = async () => {
-  const patients = await patientFhirebase.getAll();
-  return map(fromFhir)(patients as Patient[]);
+const dtoToFhir = flow(createPatient, E.map(fromModel));
+
+export const register = (
+  patientDTO: PatientDTO
+): E.Either<NonEmptyArray<string>, Promise<E.Either<string, Resource>>> =>
+  pipe(
+    dtoToFhir(patientDTO),
+    E.map(async (p) => await patientFhirbase.create(p))
+  );
+
+export const getAllPatients = async (): Promise<
+  E.Either<string, E.Either<NonEmptyArray<string>, PatientModel>[]>
+> => {
+  const patients = await patientFhirbase.getAll();
+
+  return E.map((ps: Patient[]) => A.map((p: Patient) => fromFhir(p))(ps))(
+    patients as E.Either<string, Patient[]>
+  );
 };
 
-export const register = async (patient: PatientModel) => {
-  const fhirPatient = fromModel(patient);
-  const created = await patientFhirebase.create(fhirPatient);
-  return fromFhir(created as Patient);
+export const getById = async (
+  id: string
+): Promise<
+  E.Either<string, O.Option<E.Either<NonEmptyArray<string>, PatientModel>>>
+> => {
+  const patient = await patientFhirbase.getById(id);
+  return E.map(O.map(fromFhir))(patient as E.Either<string, O.Option<Patient>>);
 };
+
+export const remove = async (id: string): Promise<E.Either<string, Resource>> =>
+  pipe(await patientFhirbase.delete(id));

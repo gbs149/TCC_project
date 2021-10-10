@@ -1,5 +1,10 @@
 import { Resource } from "fhir/r4";
-import { Pool } from "pg";
+import * as Array from "fp-ts/Array";
+import * as E from "fp-ts/Either";
+import { pipe } from "fp-ts/function";
+import { map, Option } from "fp-ts/Option";
+import * as TE from "fp-ts/TaskEither";
+import { Pool, QueryResult } from "pg";
 
 const pool = new Pool();
 
@@ -8,57 +13,98 @@ pool.on("error", (error) => {
   process.exit(-1);
 });
 
+interface Row {
+  resource: Resource;
+  fhirbase_create?: Resource;
+  fhirbase_update?: Resource;
+  fhirbase_delete?: Resource;
+}
+
+type Operations = "fhirbase_create" | "fhirbase_update" | "fhirbase_delete";
+
+const onDatabaseError = (): string => "Database error";
+
+const getSingleRowResult =
+  (operation: Operations) => (result: QueryResult<Row>) =>
+    result.rows?.[0]?.[operation];
+
 const create =
   (pool: Pool) =>
-  async (resource: Resource): Promise<Resource> => {
-    const query = await pool.query("SELECT fhirbase_create($1::jsonb)", [
-      JSON.stringify(resource),
-    ]);
-    return query.rows[0].fhirbase_create;
-  };
+  async (resource: Resource): Promise<E.Either<string, Resource>> =>
+    pipe(
+      await TE.tryCatch(
+        () =>
+          pool.query<Row>("SELECT fhirbase_create($1::jsonb)", [
+            JSON.stringify(resource),
+          ]),
+        onDatabaseError
+      )(),
+      E.map(getSingleRowResult("fhirbase_create"))
+    );
 
 const update =
   (pool: Pool) =>
-  async (resource: Resource): Promise<Resource> => {
-    const query = await pool.query("SELECT fhirbase_update($1::jsonb)", [
-      JSON.stringify(resource),
-    ]);
-    return query.rows[0].fhirbase_update;
-  };
+  async (resource: Resource): Promise<E.Either<string, Resource>> =>
+    pipe(
+      await TE.tryCatch(
+        () =>
+          pool.query("SELECT fhirbase_update($1::jsonb)", [
+            JSON.stringify(resource),
+          ]),
+        onDatabaseError
+      )(),
+      E.map(getSingleRowResult("fhirbase_update"))
+    );
 
-const del = (pool: Pool) => (resourceType: string) => async (id: string) => {
-  const query = await pool.query("SELECT fhirbase_delete($1, $2)", [
-    resourceType,
-    id,
-  ]);
-  return query.rows[0].fhirbase_delete;
-};
+const del = (pool: Pool) => (resourceType: string) => async (id: string) =>
+  pipe(
+    await TE.tryCatch(
+      () => pool.query("SELECT fhirbase_delete($1, $2)", [resourceType, id]),
+      onDatabaseError
+    )(),
+    E.map(getSingleRowResult("fhirbase_delete"))
+  );
 
 const getById =
   (pool: Pool) =>
   (entity: string) =>
-  async (id: string): Promise<Resource> => {
-    const response = await pool.query(
-      `SELECT *
-                     FROM public.${entity} AS entity
-                     WHERE entity.id = $1
-                     ORDER BY txid DESC
-                     LIMIT 1;`,
-      [id]
+  async (id: string): Promise<E.Either<string, Option<Resource>>> =>
+    pipe(
+      await TE.tryCatch(
+        () =>
+          pool.query<Row>(
+            `SELECT *
+                                 FROM public.${entity} AS entity
+                                 WHERE entity.id = $1
+                                 ORDER BY txid DESC
+                                 LIMIT 1;`,
+            [id]
+          ),
+        onDatabaseError
+      )(),
+      E.map((result) => pipe(Array.head(result.rows), map(getResource)))
     );
-
-    return response.rows[0];
-  };
 
 const getAll =
-  (pool: Pool) => (entity: string) => async (): Promise<Resource[]> => {
-    const response = await pool.query(
-      `SELECT *
-             FROM public.${entity} AS entity
-             ORDER BY txid DESC;`
+  (pool: Pool) =>
+  (entity: string) =>
+  async (): Promise<E.Either<string, Resource[]>> =>
+    pipe(
+      await TE.tryCatch(
+        () =>
+          pool.query<Row>(
+            `SELECT *
+                                 FROM public.${entity} AS entity
+                                 ORDER BY txid DESC;
+                                `
+          ),
+        onDatabaseError
+      )(),
+      E.map((r: QueryResult) => r.rows),
+      E.map(Array.map(getResource))
     );
-    return response.rows;
-  };
+
+const getResource = (row: Row) => row.resource;
 
 const createFhirbase = (pool: Pool, entity: string): Fhirbase => ({
   getById: getById(pool)(entity),
@@ -69,12 +115,11 @@ const createFhirbase = (pool: Pool, entity: string): Fhirbase => ({
 });
 
 interface Fhirbase {
-  getById: (id: string) => Promise<Resource>;
-  getAll: () => Promise<Resource[]>;
-  create: (r: Resource) => Promise<Resource>;
-  update: (r: Resource) => Promise<Resource>;
-  // TODO remove any
-  delete: (id: string) => Promise<any>;
+  getById: (id: string) => Promise<E.Either<string, Option<Resource>>>;
+  getAll: () => Promise<E.Either<string, Resource[]>>;
+  create: (resource: Resource) => Promise<E.Either<string, Resource>>;
+  update: (r: Resource) => Promise<E.Either<string, Resource>>;
+  delete: (id: string) => Promise<E.Either<string, Resource>>;
 }
 
 export const fhirbase = (entity: string): Fhirbase =>
