@@ -1,48 +1,81 @@
 import Router from "@koa/router";
-import { Either, map, right } from "fp-ts/Either";
+import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { match } from "fp-ts/lib/Either";
+
 import { PatientDTO } from "./DTOs/PatientDTO";
-import { createPatient } from "./model/PatientModel";
-import { getAllPatients, register } from "./PatientController";
+
+import { getAllPatients, getById, register, remove } from "./PatientController";
 
 export const patientRouter = new Router();
 
 patientRouter
-  .get("/", async (ctx) => {
-    try {
-      ctx.body = await getAllPatients();
-      console.log("GET patients", ctx.body);
-    } catch (e) {
-      console.error(e);
-    }
-  })
-  .get("/:id", async (ctx) => {
-    const { id } = ctx.params;
-    ctx.body = `GET PATIENT ${id}`;
-    console.log(`GET PATIENT ${id}`);
-  })
-  .post("/", async (ctx) => {
+  .get("/", async (ctx) =>
     pipe(
-      right(ctx.request.body as PatientDTO),
-      map(createPatient),
-      match(
-        (errors) => {
+      await getAllPatients(),
+      E.match(
+        async (errors) => {
           ctx.status = 400;
-          ctx.body = errors;
+          ctx.body = await errors;
+          console.error("400", ctx.body);
         },
-        (patientModel) => {
+        async (resource) => {
           ctx.status = 200;
-          ctx.body = patientModel;
+          ctx.body = await resource;
+          console.log("200", ctx.body);
+        }
+      )
+    )
+  )
+  .get("/:id", async (ctx) =>
+    pipe(
+      await getById(ctx.params.id),
+      E.match(
+        async (errors) => {
+          ctx.status = 400;
+          ctx.body = await errors;
+          console.error("400", ctx.body);
+        },
+        async (resource) => {
+          ctx.status = 200;
+          ctx.body = await resource;
+          console.log("200", ctx.body);
+        }
+      )
+    )
+  )
+  .post("/", async (ctx) =>
+    pipe(
+      await register(ctx.request.body as PatientDTO),
+      E.match(
+        async (errors) => {
+          ctx.status = 400;
+          ctx.body = await errors;
+          console.error("400", ctx.body);
+        },
+        async (resource) => {
+          ctx.status = 201;
+          ctx.body = await resource;
+          console.log("201", ctx.body);
+        }
+      )
+    )
+  )
+  .delete("/:id", async (ctx) => {
+    return pipe(
+      await remove(ctx.params.id),
+      E.match(
+        async (errors) => {
+          ctx.status = 400;
+          ctx.body = await errors;
+          console.error("400", ctx.body);
+        },
+        async (resource) => {
+          ctx.status = 200;
+          ctx.body = await resource;
+          console.log("200", ctx.body);
         }
       )
     );
-  })
-  .delete("/:id", async (ctx) => {
-    const { id } = ctx.params;
-
-    ctx.body = `DELETE ${id}`;
-    console.log(id);
   })
   .patch("/:id", async (ctx) => {
     const { id } = ctx.params;
