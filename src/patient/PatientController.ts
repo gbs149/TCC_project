@@ -4,7 +4,7 @@ import * as E from "fp-ts/Either";
 import { flow, pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
-import { fhirbase } from "../common/fhirbase";
+import { DatabaseResult, fhirbase } from "../common/fhirbase";
 import { PatientDTO } from "./DTOs/PatientDTO";
 import { fromFhir } from "./fhir/fhirToPatient";
 import { fromModel } from "./fhir/patientToFhir";
@@ -17,14 +17,14 @@ const dtoToFhir = flow(createPatient, E.map(fromModel));
 
 export const register = (
   patientDTO: PatientDTO
-): E.Either<NonEmptyArray<string>, Promise<E.Either<string, Resource>>> =>
+): ValidationResult<DatabaseResult<Resource>> =>
   pipe(
     dtoToFhir(patientDTO),
     E.map(async (p) => await patientFhirbase.create(p))
   );
 
-export const getAllPatients = async (): Promise<
-  E.Either<string, ValidationResult<PatientModel>[]>
+export const getAllPatients = async (): DatabaseResult<
+  ValidationResult<PatientModel>[]
 > => {
   const patients = await patientFhirbase.getAll();
 
@@ -35,7 +35,7 @@ export const getAllPatients = async (): Promise<
 
 export const getById = async (
   id: string
-): Promise<E.Either<string, O.Option<ValidationResult<PatientModel>>>> => {
+): DatabaseResult<O.Option<ValidationResult<PatientModel>>> => {
   const patient = await patientFhirbase.getById(id);
   return E.map(O.map(fromFhir))(patient as E.Either<string, O.Option<Patient>>);
 };
