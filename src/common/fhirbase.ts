@@ -22,6 +22,8 @@ interface Row {
 
 type Operations = "fhirbase_create" | "fhirbase_update" | "fhirbase_delete";
 
+export type DatabaseResult<T> = Promise<E.Either<string, T>>;
+
 const onDatabaseError = (): string => "Database error";
 
 const getSingleRowResult =
@@ -30,7 +32,7 @@ const getSingleRowResult =
 
 const create =
   (pool: Pool) =>
-  async (resource: Resource): Promise<E.Either<string, Resource>> =>
+  async (resource: Resource): DatabaseResult<Resource> =>
     pipe(
       await TE.tryCatch(
         () =>
@@ -44,7 +46,7 @@ const create =
 
 const update =
   (pool: Pool) =>
-  async (resource: Resource): Promise<E.Either<string, Resource>> =>
+  async (resource: Resource): DatabaseResult<Resource> =>
     pipe(
       await TE.tryCatch(
         () =>
@@ -68,7 +70,7 @@ const del = (pool: Pool) => (resourceType: string) => async (id: string) =>
 const getById =
   (pool: Pool) =>
   (entity: string) =>
-  async (id: string): Promise<E.Either<string, Option<Resource>>> =>
+  async (id: string): DatabaseResult<Option<Resource>> =>
     pipe(
       await TE.tryCatch(
         () =>
@@ -115,11 +117,11 @@ const createFhirbase = (pool: Pool, entity: string): Fhirbase => ({
 });
 
 interface Fhirbase {
-  getById: (id: string) => Promise<E.Either<string, Option<Resource>>>;
-  getAll: () => Promise<E.Either<string, Resource[]>>;
-  create: (resource: Resource) => Promise<E.Either<string, Resource>>;
-  update: (r: Resource) => Promise<E.Either<string, Resource>>;
-  delete: (id: string) => Promise<E.Either<string, Resource>>;
+  getById: (id: string) => DatabaseResult<Option<Resource>>;
+  getAll: () => DatabaseResult<Resource[]>;
+  create: (resource: Resource) => DatabaseResult<Resource>;
+  update: (r: Resource) => DatabaseResult<Resource>;
+  delete: (id: string) => DatabaseResult<Resource>;
 }
 
 export const fhirbase = (entity: string): Fhirbase =>
