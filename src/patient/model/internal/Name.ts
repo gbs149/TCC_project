@@ -1,10 +1,10 @@
 import { sequenceT } from "fp-ts/Apply";
-import { Either, left, map, right } from "fp-ts/Either";
+import { left, map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { NameDTO } from "../../DTOs/NameDTO";
 import { applicativeValidation } from "./validation/applicativeValidation";
 import { isValidString } from "./validation/boundedString";
+import { ValidationResult } from "./validation/ValidationResult";
 
 export interface Name {
   readonly first: string;
@@ -13,7 +13,7 @@ export interface Name {
 
 const makeValidString =
   (n: string) =>
-  (s: string): Either<NonEmptyArray<string>, string> =>
+  (s: string): ValidationResult<string> =>
     isValidString(s) ? right(s) : left([`Invalid ${n} name`]);
 
 const toName = ([first, last]: [string, string]): Name => ({
@@ -21,7 +21,7 @@ const toName = ([first, last]: [string, string]): Name => ({
   last,
 });
 
-export const makeName = (name: NameDTO): Either<NonEmptyArray<string>, Name> =>
+export const makeName = (name: NameDTO): ValidationResult<Name> =>
   pipe(
     sequenceT(applicativeValidation)(
       makeValidString("first")(name?.first.trim()),

@@ -1,6 +1,6 @@
-import { Either, left, right } from "fp-ts/Either";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { left, right } from "fp-ts/Either";
 import { isValidPostalCode } from "../validation/postalCode";
+import { ValidationResult } from "../validation/ValidationResult";
 
 interface PostalCodeBrand {
   readonly PostalCode: unique symbol;
@@ -12,5 +12,5 @@ const isPostalCode = (s: string): s is PostalCode => isValidPostalCode(s);
 
 export const makePostalCode = (
   postalCode: string
-): Either<NonEmptyArray<string>, PostalCode> =>
+): ValidationResult<PostalCode> =>
   isPostalCode(postalCode) ? right(postalCode) : left(["Invalid postal code"]);
