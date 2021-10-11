@@ -1,5 +1,5 @@
-import { Either, left, right } from "fp-ts/Either";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { left, right } from "fp-ts/Either";
+import { ValidationResult } from "../validation/ValidationResult";
 
 const states = [
   "AC",
@@ -39,5 +39,5 @@ export type State = string & StateBrand;
 
 const isState = (s: string): s is State => states.includes(s);
 
-export const makeState = (s: string): Either<NonEmptyArray<string>, State> =>
+export const makeState = (s: string): ValidationResult<State> =>
   isState(s) ? right(s) : left(["Invalid state"]);

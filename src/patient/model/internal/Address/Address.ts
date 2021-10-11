@@ -1,10 +1,10 @@
 import { sequenceT } from "fp-ts/Apply";
-import { Either, map } from "fp-ts/Either";
+import { map } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { AddressDTO } from "../../../DTOs/AddressDTO";
 import { AddressUseType } from "../../../fhir/internal/valueSets/addressUse";
 import { applicativeValidation } from "../validation/applicativeValidation";
+import { ValidationResult } from "../validation/ValidationResult";
 import { makeAddressUse } from "./AddressUse";
 import { City, makeCity } from "./City";
 import { Line, makeLines } from "./Line";
@@ -28,9 +28,7 @@ const toAddress = ([city, lines, postalCode, state, use]: [
   AddressUseType
 ]) => ({ city, lines, postalCode, state, use });
 
-export const makeAddress = (
-  address?: AddressDTO
-): Either<NonEmptyArray<string>, Address> =>
+export const makeAddress = (address?: AddressDTO): ValidationResult<Address> =>
   pipe(
     sequenceT(applicativeValidation)(
       makeCity(address?.city),

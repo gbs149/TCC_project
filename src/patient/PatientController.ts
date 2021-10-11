@@ -8,6 +8,7 @@ import { fhirbase } from "../common/fhirbase";
 import { PatientDTO } from "./DTOs/PatientDTO";
 import { fromFhir } from "./fhir/fhirToPatient";
 import { fromModel } from "./fhir/patientToFhir";
+import { ValidationResult } from "./model/internal/validation/ValidationResult";
 import { createPatient, PatientModel } from "./model/PatientModel";
 
 const patientFhirbase = fhirbase("patient");
@@ -23,7 +24,7 @@ export const register = (
   );
 
 export const getAllPatients = async (): Promise<
-  E.Either<string, E.Either<NonEmptyArray<string>, PatientModel>[]>
+  E.Either<string, ValidationResult<PatientModel>[]>
 > => {
   const patients = await patientFhirbase.getAll();
 
@@ -34,9 +35,7 @@ export const getAllPatients = async (): Promise<
 
 export const getById = async (
   id: string
-): Promise<
-  E.Either<string, O.Option<E.Either<NonEmptyArray<string>, PatientModel>>>
-> => {
+): Promise<E.Either<string, O.Option<ValidationResult<PatientModel>>>> => {
   const patient = await patientFhirbase.getById(id);
   return E.map(O.map(fromFhir))(patient as E.Either<string, O.Option<Patient>>);
 };

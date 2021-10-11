@@ -1,5 +1,5 @@
-import { Either, left, right } from "fp-ts/Either";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import { left, right } from "fp-ts/Either";
+import { ValidationResult } from "./validation/ValidationResult";
 
 // Each resource has an id element which contains the "logical id" of the resource assigned
 // by the server responsible for storing it. Resources always have a known logical id except
@@ -22,5 +22,5 @@ export type Id = string & IdBrand;
 
 const isId = (s: string): s is Id => idRegex.test(s);
 
-export const makeId = (s: string): Either<NonEmptyArray<string>, Id> =>
+export const makeId = (s: string): ValidationResult<Id> =>
   isId(s) ? right(s) : left(["Invalid id"]);

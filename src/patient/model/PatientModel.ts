@@ -1,9 +1,8 @@
 // First draft of a patient model with some requirements
 
 import { sequenceT } from "fp-ts/Apply";
-import { Either, map, right } from "fp-ts/Either";
+import { map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { Option } from "fp-ts/Option";
 import { PatientDTO } from "../DTOs/PatientDTO";
 import { GenderType } from "../fhir/internal/valueSets/gender";
@@ -16,6 +15,7 @@ import { Id, makeId } from "./internal/Id";
 import { makeName, Name } from "./internal/Name";
 import { makeOptionPhoneContact, PhoneContact } from "./internal/Phone";
 import { applicativeValidation } from "./internal/validation/applicativeValidation";
+import { ValidationResult } from "./internal/validation/ValidationResult";
 
 // The data in the Resource covers the "who" information about the patient: its attributes are focused
 // on the demographic information necessary to support the administrative, financial and logistic procedures.
@@ -79,7 +79,7 @@ export const createPatient = ({
   id,
   name,
   phone,
-}: PatientDTO): Either<NonEmptyArray<string>, PatientModel> =>
+}: PatientDTO): ValidationResult<PatientModel> =>
   pipe(
     sequenceT(applicativeValidation)(
       makeId(id),

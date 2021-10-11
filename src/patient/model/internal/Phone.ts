@@ -12,10 +12,11 @@ import {
   formatPhoneNumber,
   isValidPhoneNumber,
 } from "./validation/phoneValidation";
+import { ValidationResult } from "./validation/ValidationResult";
 
 export type PhoneContact = Contact;
 
-const makePhone = (s: string): Either<NonEmptyArray<string>, string> =>
+const makePhone = (s: string): ValidationResult<string> =>
   isValidPhoneNumber(s)
     ? right(formatPhoneNumber(s))
     : left(["Invalid phone number"]);
@@ -32,7 +33,7 @@ const toPhoneContact = ([phone, use]: [
 const makePhoneContact = ({
   value,
   use,
-}: ContactDTO): Either<NonEmptyArray<string>, Option<PhoneContact>> =>
+}: ContactDTO): ValidationResult<Option<PhoneContact>> =>
   pipe(
     sequenceT(applicativeValidation)(makePhone(value), makeContactUse(use)),
     map(toPhoneContact)

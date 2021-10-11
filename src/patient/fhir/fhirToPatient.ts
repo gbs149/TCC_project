@@ -1,11 +1,10 @@
 import { Patient as FhirPatient } from "fhir/r4";
-import { Either } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import { toNullable } from "fp-ts/Option";
 import { orElse } from "../../helpers/fp-helpers";
 import { emptyContactDTO } from "../DTOs/ContactDTO";
 import { PatientDTO } from "../DTOs/PatientDTO";
+import { ValidationResult } from "../model/internal/validation/ValidationResult";
 import { createPatient, PatientModel } from "../model/PatientModel";
 import { getCurrentAddress } from "./internal/address";
 import { getCpf } from "./internal/cpf";
@@ -14,7 +13,7 @@ import { getEmail, getPhone } from "./internal/telecom";
 
 export const fromFhir = (
   fhirPatient: FhirPatient
-): Either<NonEmptyArray<string>, PatientModel> =>
+): ValidationResult<PatientModel> =>
   pipe(fhirToDTO(fhirPatient), createPatient);
 
 const fhirToDTO = (fhirPatient: FhirPatient): PatientDTO => ({
