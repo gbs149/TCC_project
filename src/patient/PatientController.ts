@@ -2,7 +2,6 @@ import { Patient, Resource } from "fhir/r4";
 import * as A from "fp-ts/Array";
 import * as E from "fp-ts/Either";
 import { flow, pipe } from "fp-ts/function";
-import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import * as O from "fp-ts/Option";
 import { DatabaseResult, fhirbase } from "../common/fhirbase";
 import { PatientDTO } from "./DTOs/PatientDTO";
