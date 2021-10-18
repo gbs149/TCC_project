@@ -5,21 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "debug": "npm run build && npm run watch-debug",
-    "lint": "tsc --noEmit && eslint \"**/*.{js,ts}\" --quiet --fix",
-    "serve-debug": "nodemon --inspect dist/server.js",
-    "serve": "node dist/server.js",
     "start": "node --unhandled-rejections=strict -r source-map-support/register dist/index.js",
     "test": "jest --forceExit --coverage --verbose",
-    "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\"",
-    "watch-node": "nodemon dist/server.js",
-    "watch-sass": "sass --watch src/public/css/main.scss dist/public/css/main.css",
-    "watch-test": "npm run test -- --watchAll",
-    "watch-ts": "tsc -w",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run watch-node\""
+    "watch-test": "npm run test -- --watchAll"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Gabriel Bohrer Schmitt",
+  "license": "MIT",
   "dependencies": {
     "@koa/router": "^10.1.1",
     "date-fns": "^2.23.0",
