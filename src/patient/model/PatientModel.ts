@@ -1,5 +1,3 @@
-// First draft of a patient model with some requirements
-
 import { sequenceT } from "fp-ts/Apply";
 import { map, right } from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
@@ -69,7 +67,7 @@ const toPatient = ([
   phone,
 });
 
-export const createPatient = ({
+export const createPatientModel = ({
   active,
   birthdate,
   cpf,

@@ -1,43 +1,54 @@
-import { Patient, Resource } from "fhir/r4";
-import * as A from "fp-ts/Array";
-import * as E from "fp-ts/Either";
+import { Patient } from "fhir/r4";
+import * as Array from "fp-ts/Array";
+import * as Either from "fp-ts/Either";
 import { flow, pipe } from "fp-ts/function";
-import * as O from "fp-ts/Option";
-import { DatabaseResult, fhirbase } from "../common/fhirbase";
+import { NonEmptyArray } from "fp-ts/NonEmptyArray";
+import * as Option from "fp-ts/Option";
+import * as TaskEither from "fp-ts/TaskEither";
+import { fhirbase } from "../common/fhirbase";
 import { PatientDTO } from "./DTOs/PatientDTO";
-import { fromFhir } from "./fhir/fhirToPatient";
-import { fromModel } from "./fhir/patientToFhir";
-import { ValidationResult } from "./model/internal/validation/ValidationResult";
-import { createPatient, PatientModel } from "./model/PatientModel";
+import { fromFhirToPatientDTO } from "./fhir/fhirToPatient";
+import { fromModelToFhir } from "./fhir/patientToFhir";
+import { createPatientModel } from "./model/PatientModel";
 
 const patientFhirbase = fhirbase("patient");
 
-const dtoToFhir = flow(createPatient, E.map(fromModel));
-
+// PatientDTO
+//   -> Either<NonEmptyArray<string>, PatientModel>
+//   -> Either<NonEmptyArray<string>, FHIR.Patient>
+//   -> TE.TaskEither<NonEmptyArray<string>, Resource>
+//   -> TE.TaskEither<NonEmptyArray<string>, PatientDTO>
 export const register = (
   patientDTO: PatientDTO
-): ValidationResult<DatabaseResult<Resource>> =>
-  pipe(
-    dtoToFhir(patientDTO),
-    E.map(async (p) => await patientFhirbase.create(p))
+): TaskEither.TaskEither<NonEmptyArray<string>, PatientDTO> => {
+  return pipe(
+    createPatientModel(patientDTO),
+    Either.map(fromModelToFhir),
+    TaskEither.fromEither,
+    TaskEither.chain(patientFhirbase.create),
+    TaskEither.map(fromFhirToPatientDTO)
   );
+};
 
-export const getAllPatients = async (): DatabaseResult<
-  ValidationResult<PatientModel>[]
+export const getAllPatients = (): TaskEither.TaskEither<
+  NonEmptyArray<string>,
+  PatientDTO[]
 > => {
-  const patients = await patientFhirbase.getAll();
-
-  return E.map((ps: Patient[]) => A.map((p: Patient) => fromFhir(p))(ps))(
-    patients as E.Either<string, Patient[]>
+  return pipe(
+    patientFhirbase.getAll(),
+    TaskEither.map((ps: Patient[]) => Array.map(fromFhirToPatientDTO)(ps))
   );
 };
 
-export const getById = async (
+export const getById = (
   id: string
-): DatabaseResult<O.Option<ValidationResult<PatientModel>>> => {
-  const patient = await patientFhirbase.getById(id);
-  return E.map(O.map(fromFhir))(patient as E.Either<string, O.Option<Patient>>);
-};
+): TaskEither.TaskEither<NonEmptyArray<string>, Option.Option<PatientDTO>> =>
+  pipe(
+    patientFhirbase.getById(id),
+    TaskEither.map(Option.map(fromFhirToPatientDTO))
+  );
 
-export const remove = async (id: string): Promise<E.Either<string, Resource>> =>
-  pipe(await patientFhirbase.delete(id));
+export const remove = (
+  id: string
+): TaskEither.TaskEither<NonEmptyArray<string>, PatientDTO> =>
+  pipe(patientFhirbase.delete(id), TaskEither.map(fromFhirToPatientDTO));

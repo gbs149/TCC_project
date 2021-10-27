@@ -5,18 +5,18 @@ import { orElse } from "../../helpers/fp-helpers";
 import { emptyContactDTO } from "../DTOs/ContactDTO";
 import { PatientDTO } from "../DTOs/PatientDTO";
 import { ValidationResult } from "../model/internal/validation/ValidationResult";
-import { createPatient, PatientModel } from "../model/PatientModel";
+import { createPatientModel, PatientModel } from "../model/PatientModel";
 import { getCurrentAddress } from "./internal/address";
 import { getCpf } from "./internal/cpf";
 import { getName } from "./internal/name";
 import { getEmail, getPhone } from "./internal/telecom";
 
-export const fromFhir = (
+export const fromFhirToPatientModel = (
   fhirPatient: FhirPatient
 ): ValidationResult<PatientModel> =>
-  pipe(fhirToDTO(fhirPatient), createPatient);
+  pipe(fromFhirToPatientDTO(fhirPatient), createPatientModel);
 
-const fhirToDTO = (fhirPatient: FhirPatient): PatientDTO => ({
+export const fromFhirToPatientDTO = (fhirPatient: FhirPatient): PatientDTO => ({
   id: fhirPatient.id,
   active: fhirPatient.active,
   gender: fhirPatient.gender,

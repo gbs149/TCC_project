@@ -8,23 +8,25 @@ import {
 import { ValidationResult } from "../model/internal/validation/ValidationResult";
 
 import { PatientModel } from "../model/PatientModel";
-import { fromFhir } from "./fhirToPatient";
+import { fromFhirToPatientModel } from "./fhirToPatient";
 
 describe("FHIR to Patient model", () => {
   it("should map from fhir to model", () => {
-    const patientModel: ValidationResult<PatientModel> = fromFhir(patient);
+    const patientModel: ValidationResult<PatientModel> =
+      fromFhirToPatientModel(patient);
     expect(patientModel).toStrictEqual(completePatientModel);
   });
 
   it("should map from fhir to model with no phone", () => {
     const patientModel: ValidationResult<PatientModel> =
-      fromFhir(patientWithNoPhone);
+      fromFhirToPatientModel(patientWithNoPhone);
     expect(patientModel).toStrictEqual(noPhonePatientModel);
   });
 
   it("should map from fhir to list of errors", () => {
     const p: Patient = { resourceType: "Patient" };
-    const patientModel: ValidationResult<PatientModel> = fromFhir(p);
+    const patientModel: ValidationResult<PatientModel> =
+      fromFhirToPatientModel(p);
     expect(patientModel).toStrictEqual({
       _tag: "Left",
       left: [

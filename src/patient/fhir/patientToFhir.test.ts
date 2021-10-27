@@ -5,12 +5,12 @@ import {
 } from "../__fixtures__/patientDTO";
 import { errors } from "../__snapshots__/errors";
 import { noPhonePatientFhir, patientFhir } from "../__snapshots__/patientFhir";
-import { createPatient } from "../model/PatientModel";
+import { createPatientModel } from "../model/PatientModel";
 import { fromValidatedModel } from "./patientToFhir";
 
 describe("patientFhir", () => {
   it("should create a valid fhir resource from PatientModel", () => {
-    const patient = createPatient(completePatientDTO);
+    const patient = createPatientModel(completePatientDTO);
     const fhirP = fromValidatedModel(patient);
     expect(fhirP).toStrictEqual({
       _tag: "Right",
@@ -19,7 +19,7 @@ describe("patientFhir", () => {
   });
 
   it("should create a valid fhir resource from PatientModel with no phone", () => {
-    const patient = createPatient(noPhonePatientDTO);
+    const patient = createPatientModel(noPhonePatientDTO);
     const fhirP = fromValidatedModel(patient);
     expect(fhirP).toStrictEqual({
       _tag: "Right",
@@ -29,7 +29,7 @@ describe("patientFhir", () => {
 
   it("should not create a fhir resource when there are errors in model", () => {
     // we should trust the model to create a valid patient, so no validation should be needed when going to FHIR
-    const patient = createPatient(invalidPatientDTO);
+    const patient = createPatientModel(invalidPatientDTO);
     const fhirP = fromValidatedModel(patient);
     expect(fhirP).toEqual(errors);
   });

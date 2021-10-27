@@ -6,6 +6,6 @@ interface WithSystem {
 }
 
 export const findBySystem =
-  (system: string) =>
+  (desiredSystem: string) =>
   <T extends WithSystem>(ts: T[] = []): Option<T> =>
-    findFirst<T>((t) => t.system === system)(ts);
+    findFirst<T>((t) => t.system === desiredSystem)(ts);

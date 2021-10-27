@@ -5,7 +5,7 @@ import { PatientModel } from "../model/PatientModel";
 import { toTelecom } from "./internal/helpers/telecom";
 import { AddressUseType } from "./internal/valueSets/addressUse";
 
-export const fromModel = (patient: PatientModel): FhirPatient => ({
+export const fromModelToFhir = (patient: PatientModel): FhirPatient => ({
   resourceType: "Patient",
   id: patient.id,
   active: patient.active,
@@ -38,4 +38,4 @@ export const fromModel = (patient: PatientModel): FhirPatient => ({
   telecom: toTelecom(patient),
 });
 
-export const fromValidatedModel = map(fromModel);
+export const fromValidatedModel = map(fromModelToFhir);
