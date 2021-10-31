@@ -1,7 +1,7 @@
 import { Patient } from "fhir/r4";
 import * as Array from "fp-ts/Array";
 import * as Either from "fp-ts/Either";
-import { flow, pipe } from "fp-ts/function";
+import { pipe } from "fp-ts/function";
 import { NonEmptyArray } from "fp-ts/NonEmptyArray";
 import * as Option from "fp-ts/Option";
 import * as TaskEither from "fp-ts/TaskEither";
